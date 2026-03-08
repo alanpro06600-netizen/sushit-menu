@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta charset="UTF-8">
@@ -11,56 +12,66 @@
 
 body{
 margin:0;
-font-family:Arial;
-background:#f5f1e9;
+font-family:Arial, sans-serif;
 color:#222;
+
+/* fond japonais /
+
+background-image:url("https://www.transparenttextures.com/patterns/japanese-wave.png");
+background-color:#f5f1e9;
 }
 
-/* HEADER */
+/ header /
 
 .header{
-background:#c40000;
-color:white;
 text-align:center;
-padding:30px;
-font-size:32px;
+padding:35px;
+font-size:34px;
 font-weight:bold;
+color:white;
+background:#c40000;
 letter-spacing:3px;
 }
 
-/* section */
+/ section /
 
 .section{
 padding:20px;
 }
 
+/ titre catégorie /
+
 .section-title{
 font-size:26px;
 margin-bottom:15px;
-border-left:6px solid #c40000;
-padding-left:10px;
+color:#c40000;
+font-weight:bold;
 }
 
-/* produit */
+/ produit /
 
 .product{
 display:flex;
 align-items:center;
 background:white;
-border-radius:12px;
-margin-bottom:15px;
+border-radius:15px;
 padding:10px;
+margin-bottom:15px;
 box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
+
+/ image produit /
 
 .product img,
 .product video{
 width:110px;
 height:110px;
-object-fit:cover;
 border-radius:10px;
+object-fit:cover;
 margin-right:15px;
 }
+
+/ info /
 
 .product-info{
 flex:1;
@@ -73,15 +84,16 @@ margin-bottom:5px;
 }
 
 .price{
-font-size:16px;
 color:#c40000;
+font-size:16px;
+margin:2px 0;
 }
 
-/* décor japonais */
+/ décor japonais */
 
-.japan{
+.decor{
 text-align:center;
-font-size:30px;
+font-size:28px;
 margin:20px 0;
 }
 
@@ -95,91 +107,103 @@ margin:20px 0;
 🍣 SUSH'IT MENU
 </div>
 
-<div class="japan">
+<div class="decor">
 🌸 🌊 🏮 🌸
 </div>
-
-<!-- FROZEN -->
 
 <div class="section">
 
 <div class="section-title">❄️ Frozen</div>
 
 <div class="product">
+
 <img src="image-frozen.jpg">
+
 <div class="product-info">
+
 <div class="product-title">Frozen</div>
+
 <div class="price">2g — 20€</div>
 <div class="price">6g — 50€</div>
 <div class="price">10g — 70€</div>
+
 </div>
 </div>
 
 </div>
 
-<div class="japan">
+<div class="decor">
 ⛩️ 🌊 ⛩️
 </div>
-
-<!-- FILTRE -->
 
 <div class="section">
 
 <div class="section-title">💥 Filtré</div>
 
 <div class="product">
+
 <img src="image-filtre.jpg">
+
 <div class="product-info">
+
 <div class="product-title">Filtré</div>
+
 <div class="price">2g — 20€</div>
 <div class="price">6g — 50€</div>
 <div class="price">10g — 70€</div>
+
 </div>
 </div>
 
 </div>
-
-<!-- STATIC -->
 
 <div class="section">
 
 <div class="section-title">⚡ Static</div>
 
 <div class="product">
+
 <img src="image-static.jpg">
+
 <div class="product-info">
+
 <div class="product-title">Static</div>
+
 <div class="price">2g — 20€</div>
 <div class="price">6g — 50€</div>
 <div class="price">10g — 70€</div>
+
 </div>
 </div>
 
 </div>
 
-<div class="japan">
+<div class="decor">
 🌸 🏮 🌸
 </div>
-
-<!-- MOUSSEUX -->
 
 <div class="section">
 
 <div class="section-title">🧽 Mousseux</div>
 
 <div class="product">
+
 <img src="image-mousseux.jpg">
+
 <div class="product-info">
+
 <div class="product-title">Mousseux</div>
+
 <div class="price">2g — 10€</div>
 <div class="price">4.5g — 20€</div>
 <div class="price">12g — 50€</div>
+
 </div>
 </div>
 
 </div>
 
-<div class="japan">
+<div class="decor">
 🍣 🌊 🍣
 </div>
 
