@@ -1,65 +1,186 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Sush'it Menu</title>
 
 <style>
+
 body{
+margin:0;
 font-family:Arial;
-background:#f2efe9;
+background:#f5f1e9;
+color:#222;
+}
+
+/* HEADER */
+
+.header{
+background:#c40000;
+color:white;
 text-align:center;
+padding:30px;
+font-size:32px;
+font-weight:bold;
+letter-spacing:3px;
 }
 
-h1{
-color:#d10000;
-}
+/* section */
 
-.menu{
-background:white;
+.section{
 padding:20px;
-margin:20px;
-border-radius:15px;
 }
 
-.item{
-font-size:20px;
-margin:10px;
+.section-title{
+font-size:26px;
+margin-bottom:15px;
+border-left:6px solid #c40000;
+padding-left:10px;
 }
+
+/* produit */
+
+.product{
+display:flex;
+align-items:center;
+background:white;
+border-radius:12px;
+margin-bottom:15px;
+padding:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.product img,
+.product video{
+width:110px;
+height:110px;
+object-fit:cover;
+border-radius:10px;
+margin-right:15px;
+}
+
+.product-info{
+flex:1;
+}
+
+.product-title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.price{
+font-size:16px;
+color:#c40000;
+}
+
+/* décor japonais */
+
+.japan{
+text-align:center;
+font-size:30px;
+margin:20px 0;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h1>🍣 SUSH'IT MENU</h1>
-
-<div class="menu">
-<h2>❄️ Frozen</h2>
-<div class="item">2g — 20€</div>
-<div class="item">6g — 50€</div>
-<div class="item">10g — 70€</div>
+<div class="header">
+🍣 SUSH'IT MENU
 </div>
 
-<div class="menu">
-<h2>💥 Filtré</h2>
-<div class="item">2g — 20€</div>
-<div class="item">6g — 50€</div>
-<div class="item">10g — 70€</div>
+<div class="japan">
+🌸 🌊 🏮 🌸
 </div>
 
-<div class="menu">
-<h2>⚡ Static</h2>
-<div class="item">2g — 20€</div>
-<div class="item">6g — 50€</div>
-<div class="item">10g — 70€</div>
+<!-- FROZEN -->
+
+<div class="section">
+
+<div class="section-title">❄️ Frozen</div>
+
+<div class="product">
+<img src="image-frozen.jpg">
+<div class="product-info">
+<div class="product-title">Frozen</div>
+<div class="price">2g — 20€</div>
+<div class="price">6g — 50€</div>
+<div class="price">10g — 70€</div>
+</div>
 </div>
 
-<div class="menu">
-<h2>🧽 Mousseux</h2>
-<div class="item">2g — 10€</div>
-<div class="item">4.5g — 20€</div>
-<div class="item">12g — 50€</div>
+</div>
+
+<div class="japan">
+⛩️ 🌊 ⛩️
+</div>
+
+<!-- FILTRE -->
+
+<div class="section">
+
+<div class="section-title">💥 Filtré</div>
+
+<div class="product">
+<img src="image-filtre.jpg">
+<div class="product-info">
+<div class="product-title">Filtré</div>
+<div class="price">2g — 20€</div>
+<div class="price">6g — 50€</div>
+<div class="price">10g — 70€</div>
+</div>
+</div>
+
+</div>
+
+<!-- STATIC -->
+
+<div class="section">
+
+<div class="section-title">⚡ Static</div>
+
+<div class="product">
+<img src="image-static.jpg">
+<div class="product-info">
+<div class="product-title">Static</div>
+<div class="price">2g — 20€</div>
+<div class="price">6g — 50€</div>
+<div class="price">10g — 70€</div>
+</div>
+</div>
+
+</div>
+
+<div class="japan">
+🌸 🏮 🌸
+</div>
+
+<!-- MOUSSEUX -->
+
+<div class="section">
+
+<div class="section-title">🧽 Mousseux</div>
+
+<div class="product">
+<img src="image-mousseux.jpg">
+<div class="product-info">
+<div class="product-title">Mousseux</div>
+<div class="price">2g — 10€</div>
+<div class="price">4.5g — 20€</div>
+<div class="price">12g — 50€</div>
+</div>
+</div>
+
+</div>
+
+<div class="japan">
+🍣 🌊 🍣
 </div>
 
 </body>
