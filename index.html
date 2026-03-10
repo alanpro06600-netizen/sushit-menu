@@ -27,15 +27,15 @@
         .header { 
             text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); 
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red);
-            -webkit-touch-callout: none;
         }
-        .logo { font-size: 2rem; font-weight: 900; margin: 0; pointer-events: none; }
+        .logo { font-size: 2rem; font-weight: 900; margin: 0; }
         
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: 20px; margin-bottom: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer; text-align: center;
+            cursor: pointer; text-align: center; transition: 0.2s;
         }
+        .category-card:active { transform: scale(0.96); }
         .cat-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
 
         /* --- FICHE PRODUIT --- */
@@ -81,7 +81,7 @@
         <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€']])">
             <span class="cat-name">⚡️ STATIC</span>
         </div>
-        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/34f621352eaf9bf7bbc185f7fa724ba912322b69/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/main/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
             <span class="cat-name">☁️ MOUSSEUX</span>
         </div>
     </div>
@@ -112,19 +112,18 @@
         let currentProduct = "";
         let adminMode = false;
 
-        // --- ADMIN ---
+        // --- GESTION ADMIN (3s sur Logo) ---
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
         adminTrigger.addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "MODE ADMIN ACTIF 🔓" : "MODE ADMIN DÉSACTIF 🔒");
+                alert(adminMode ? "ADMIN MODE: ON 🔓" : "ADMIN MODE: OFF 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
         adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
-        adminTrigger.addEventListener('contextmenu', (e) => e.preventDefault());
 
         function openProduct(title, media, desc, prices, videoUrl = null) {
             currentProduct = title;
@@ -165,6 +164,12 @@
             document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
         }
 
+        function resetReview() {
+            currentRating = 0;
+            document.getElementById('review-text').value = '';
+            setStar(0);
+        }
+
         function postReview() {
             const text = document.getElementById('review-text').value;
             if(!currentRating || !text.trim()) return alert("Note + Message requis !");
@@ -184,11 +189,11 @@
                 html += `<div class="comment-item">
                     ${delBtn}
                     <div style="color:var(--text-gold); font-size:0.8rem; margin-bottom:5px;">${"★".repeat(r.rating)}</div>
-                    <div>${r.text}</div>
+                    <div style="padding-right:20px;">${r.text}</div>
                     <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">${r.date}</div>
                 </div>`;
             });
-            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.8rem; text-align:center;'>Aucun avis pour le moment.</div>";
+            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.8rem; text-align:center;'>Aucun avis.</div>";
         }
 
         function deleteReview(id) {
