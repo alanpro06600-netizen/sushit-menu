@@ -2,25 +2,25 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sush'IT Menu</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: #f4ece1; /* Effet vieux papier */
-            --accent-red: #e63946; /* Rouge Japon / Sush'IT */
-            --frozen-blue: #a8dadc;
-            --text-dark: #1d3557;
-            --gold: #d4af37;
+            --accent-red: #ff3e3e;
+            --glass-bg: rgba(15, 15, 15, 0.85);
+            --text-gold: #f1d279;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* Texture légère */
-            color: var(--text-dark);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-image: url(https://imgur.com/a/UD7F10z); /* Remplace par le lien de l'image générée */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             margin: 0;
             padding: 20px;
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,75 +28,87 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--accent-red);
         }
 
         .logo {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            color: var(--accent-red);
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1);
             margin: 0;
-        }
-
-        .subtitle {
-            font-style: italic;
-            font-weight: bold;
-            color: var(--text-dark);
-            border-top: 2px solid var(--accent-red);
-            padding-top: 5px;
+            letter-spacing: 2px;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(255, 62, 62, 0.8);
         }
 
         .category-card {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--accent-red);
+            max-width: 350px;
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .category-title {
             display: flex;
             align-items: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 15px;
+            color: var(--text-gold);
             text-transform: uppercase;
+            border-bottom: 1px solid rgba(241, 210, 121, 0.3);
+            padding-bottom: 10px;
         }
 
         .price-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed #ccc;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .price-row:last-child { border-bottom: none; }
 
-        .weight { font-weight: bold; font-size: 1.1rem; }
-        .price { 
-            background: var(--accent-red); 
-            color: white; 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-weight: 900;
+        .weight { 
+            font-size: 1.1rem; 
+            font-weight: 500;
         }
 
-        /* Styles Spécifiques par Catégorie */
-        .frozen { border-left-color: #457b9d; }
-        .static { border-left-color: #ffb703; }
+        .price { 
+            background: linear-gradient(135deg, #ff3e3e 0%, #a80000 100%);
+            color: white; 
+            padding: 6px 15px; 
+            border-radius: 12px; 
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 62, 62, 0.3);
+        }
+
+        /* Effets de brillance sur les catégories spéciales */
+        .frozen-style { border-top: 3px solid #00f2ff; }
+        .static-style { border-top: 3px solid #ffcc00; }
 
         .footer {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            text-align: center;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            background: rgba(0,0,0,0.4);
+            padding: 5px 15px;
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -104,10 +116,9 @@
 
     <div class="header">
         <h1 class="logo">SUSH'IT</h1>
-        <div class="subtitle">PREMIUM MENU</div>
     </div>
 
-    <div class="category-card frozen">
+    <div class="category-card frozen-style">
         <div class="category-title">❄️ FROZEN</div>
         <div class="price-row"><span class="weight">2g</span> <span class="price">20€</span></div>
         <div class="price-row"><span class="weight">6g</span> <span class="price">50€</span></div>
@@ -121,7 +132,7 @@
         <div class="price-row"><span class="weight">10g</span> <span class="price">70€</span></div>
     </div>
 
-    <div class="category-card static">
+    <div class="category-card static-style">
         <div class="category-title">⚡️ STATIC</div>
         <div class="price-row"><span class="weight">2g</span> <span class="price">20€</span></div>
         <div class="price-row"><span class="weight">6g</span> <span class="price">50€</span></div>
@@ -129,16 +140,17 @@
     </div>
 
     <div class="footer">
-        🇯🇵 Qualité Supérieure • Sush'IT 2024
+        ⛩️ Sush'IT Premium Quality ⛩️
     </div>
 
     <script>
-        // Initialise la Mini App Telegram
         const tele = window.Telegram.WebApp;
-        tele.expand(); // Ouvre la fenêtre en grand
-        tele.MainButton.text = "FERMER LE MENU";
-        tele.MainButton.show();
-        tele.MainButton.onClick(() => tele.close());
+        tele.ready();
+        tele.expand(); // Pour que l'app prenne tout l'écran
+        
+        // Configuration de la couleur de la barre de statut Telegram
+        tele.setHeaderColor('#000000');
+        tele.setBackgroundColor('#000000');
     </script>
 </body>
 </html>
