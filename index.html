@@ -12,10 +12,7 @@
             --text-gold: #f1d279;
         }
 
-        * {
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-        }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -25,22 +22,20 @@
             user-select: none; -webkit-user-select: none;
         }
 
-        /* --- MENU PRINCIPAL --- */
-        #main-menu { width: 100%; max-width: 400px; display: block; }
-        
+        /* --- MENU --- */
+        #main-menu { width: 100%; max-width: 400px; }
         .header { 
             text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); 
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red);
             -webkit-touch-callout: none;
         }
-        .logo { font-size: 2rem; font-weight: 900; margin: 0; pointer-events: none; }
+        .logo { font-size: 2rem; font-weight: 900; margin: 0; }
         
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: 20px; margin-bottom: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer; transition: 0.2s; text-align: center;
+            cursor: pointer; text-align: center;
         }
-        .category-card:active { transform: scale(0.96); border-color: var(--accent-red); }
         .cat-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
 
         /* --- FICHE PRODUIT --- */
@@ -53,7 +48,7 @@
         .p-gram { font-weight: bold; color: var(--text-gold); font-size: 1.1rem; }
         .p-value { display: block; font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
 
-        /* --- SECTION AVIS --- */
+        /* --- AVIS --- */
         .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; }
         .stars { display: flex; gap: 8px; margin-bottom: 15px; justify-content: center; }
         .star { font-size: 30px; color: #333; cursor: pointer; }
@@ -67,7 +62,7 @@
         
         #comments-list { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
         .comment-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 10px; position: relative; }
-        .del-btn { position: absolute; top: 10px; right: 12px; color: #ff3e3e; font-weight: bold; font-size: 1.2rem; padding: 5px; cursor: pointer; }
+        .del-btn { position: absolute; top: 10px; right: 12px; color: #ff3e3e; font-weight: bold; cursor: pointer; }
 
         .btn-back { background: transparent; color: white; border: 1px solid white; padding: 12px; width: 100%; border-radius: 10px; margin-top: 20px; font-weight: bold; }
     </style>
@@ -80,7 +75,7 @@
         <div class="category-card" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€']])">
             <span class="cat-name">❄️ FROZEN</span>
         </div>
-        <div class="category-card" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel Japonais.', [['2g','20€'],['6g','50€'],['10g','70€']])">
+        <div class="category-card" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel.', [['2g','20€'],['6g','50€'],['10g','70€']])">
             <span class="cat-name">💥 FILTRÉ</span>
         </div>
         <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€']])">
@@ -117,20 +112,18 @@
         let currentProduct = "";
         let adminMode = false;
 
-        // --- GESTION ADMIN (Appui long 3s sur le logo SUSH'IT) ---
+        // --- ADMIN (3s sur LOGO) ---
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
-
-        adminTrigger.addEventListener('touchstart', (e) => {
+        adminTrigger.addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN MODE: ON 🔓 (Tu peux supprimer les avis)" : "ADMIN MODE: OFF 🔒");
+                alert(adminMode ? "MODE ADMIN ACTIF 🔓" : "MODE ADMIN DÉSACTIF 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
         adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
-        adminTrigger.addEventListener('contextmenu', (e) => e.preventDefault());
 
         function openProduct(title, media, desc, prices, videoUrl = null) {
             currentProduct = title;
@@ -140,10 +133,13 @@
             document.getElementById('prod-desc').innerText = desc;
             
             let mediaHtml = `<img src="${media}">`;
+            
             if(videoUrl) {
-                mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
-                    <p style="font-size:0.7rem; color:var(--text-gold); text-align:center; margin-bottom:5px;">🎥 PRÉSENTATION VIDÉO</p>
-                    <video src="${videoUrl}" controls style="width:100%; border-radius:10px;"></video>
+                mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:15px; text-align:center;">
+                    <p style="font-size:0.7rem; color:var(--text-gold); margin-bottom:10px;">🎥 PRÉSENTATION VIDÉO</p>
+                    <video controls playsinline preload="auto" style="width:100%; border-radius:12px; background:#000;">
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>
                 </div>`;
             }
             document.getElementById('media-content').innerHTML = mediaHtml;
@@ -168,12 +164,6 @@
             document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
         }
 
-        function resetReview() {
-            currentRating = 0;
-            document.getElementById('review-text').value = '';
-            setStar(0);
-        }
-
         function postReview() {
             const text = document.getElementById('review-text').value;
             if(!currentRating || !text.trim()) return alert("Note + Message requis !");
@@ -193,7 +183,7 @@
                 html += `<div class="comment-item">
                     ${delBtn}
                     <div style="color:var(--text-gold); font-size:0.8rem; margin-bottom:5px;">${"★".repeat(r.rating)}</div>
-                    <div style="padding-right:20px;">${r.text}</div>
+                    <div>${r.text}</div>
                     <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">${r.date}</div>
                 </div>`;
             });
