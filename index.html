@@ -67,7 +67,7 @@
         
         #comments-list { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
         .comment-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 10px; position: relative; }
-        .del-btn { position: absolute; top: 10px; right: 12px; color: #ff3e3e; font-weight: bold; font-size: 1.2rem; padding: 5px; }
+        .del-btn { position: absolute; top: 10px; right: 12px; color: #ff3e3e; font-weight: bold; font-size: 1.2rem; padding: 5px; cursor: pointer; }
 
         .btn-back { background: transparent; color: white; border: 1px solid white; padding: 12px; width: 100%; border-radius: 10px; margin-top: 20px; font-weight: bold; }
     </style>
@@ -117,7 +117,7 @@
         let currentProduct = "";
         let adminMode = false;
 
-        // --- GESTION ADMIN (3s sur SUSH'IT) ---
+        // --- GESTION ADMIN (Appui long 3s sur le logo SUSH'IT) ---
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
 
@@ -125,7 +125,7 @@
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN MODE: ON 🔓" : "ADMIN MODE: OFF 🔒");
+                alert(adminMode ? "ADMIN MODE: ON 🔓 (Tu peux supprimer les avis)" : "ADMIN MODE: OFF 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
