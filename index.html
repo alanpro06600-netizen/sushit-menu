@@ -117,7 +117,7 @@
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
+                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIF 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
@@ -130,15 +130,20 @@
             document.getElementById('prod-title').innerText = title;
             document.getElementById('prod-desc').innerText = desc;
             
-            let mediaHtml = `<img src="${media}">`;
+            // Initialisation de la zone média
+            let mediaHtml = "";
             
             if(videoUrl) {
-                mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:10px;">
+                // MODIFICATION : On n'affiche QUE la vidéo, pas l'image du tsunami au-dessus
+                mediaHtml += `<div style="text-align:center;">
                     <p style="font-size:0.6rem; color:var(--text-gold); text-align:center; margin-bottom:8px;">🎥 APERÇU VIDÉO</p>
                     <video controls playsinline webkit-playsinline muted autoplay preload="auto" style="width:100%; border-radius:10px; background:#000;">
                         <source src="${videoUrl}" type="video/mp4">
                     </video>
                 </div>`;
+            } else {
+                // Si pas de vidéo, on affiche l'image par défaut
+                mediaHtml = `<img src="${media}" style="width:100%;">`;
             }
             document.getElementById('media-content').innerHTML = mediaHtml;
             
