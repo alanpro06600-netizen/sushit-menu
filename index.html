@@ -22,18 +22,18 @@
             user-select: none; -webkit-user-select: none;
         }
 
-        /* --- MENU --- */
+        /* --- MENU PRINCIPAL --- */
         #main-menu { width: 100%; max-width: 400px; }
         .header { 
             text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); 
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red);
         }
-        .logo { font-size: 2rem; font-weight: 900; margin: 0; }
+        .logo { font-size: 2rem; font-weight: 900; margin: 0; letter-spacing: 2px; }
         
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: 20px; margin-bottom: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer; text-align: center; transition: 0.2s;
+            cursor: pointer; text-align: center; transition: transform 0.2s;
         }
         .category-card:active { transform: scale(0.96); }
         .cat-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
@@ -48,7 +48,7 @@
         .p-gram { font-weight: bold; color: var(--text-gold); font-size: 1.1rem; }
         .p-value { display: block; font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
 
-        /* --- AVIS --- */
+        /* --- SYSTÈME D'AVIS --- */
         .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; }
         .stars { display: flex; gap: 8px; margin-bottom: 15px; justify-content: center; }
         .star { font-size: 30px; color: #333; cursor: pointer; }
@@ -56,7 +56,7 @@
         
         textarea {
             width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px;
-            color: white; padding: 12px; font-family: inherit; margin-bottom: 10px; resize: none;
+            color: white; padding: 12px; font-family: inherit; margin-bottom: 10px; resize: none; outline: none;
         }
         .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; }
         
@@ -81,7 +81,8 @@
         <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€']])">
             <span class="cat-name">⚡️ STATIC</span>
         </div>
-        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/main/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
+        
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/34f621352eaf9bf7bbc185f7fa724ba912322b69/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
             <span class="cat-name">☁️ MOUSSEUX</span>
         </div>
     </div>
@@ -98,10 +99,11 @@
             <div class="stars" id="star-rating">
                 <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
             </div>
-            <textarea id="review-text" rows="2" placeholder="Écris ton avis..."></textarea>
+            <textarea id="review-text" rows="2" placeholder="Laisse un commentaire..."></textarea>
             <button class="btn-post" onclick="postReview()">POSTER MON AVIS</button>
             <div id="comments-list"></div>
         </div>
+        
         <button class="btn-back" onclick="goBack()">← RETOUR</button>
     </div>
 
@@ -112,19 +114,20 @@
         let currentProduct = "";
         let adminMode = false;
 
-        // --- GESTION ADMIN (3s sur Logo) ---
+        // --- ADMIN (3s sur Logo) ---
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
         adminTrigger.addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN MODE: ON 🔓" : "ADMIN MODE: OFF 🔒");
+                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
         adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
 
+        // --- NAVIGATION ---
         function openProduct(title, media, desc, prices, videoUrl = null) {
             currentProduct = title;
             document.getElementById('main-menu').style.display = 'none';
@@ -135,9 +138,10 @@
             let mediaHtml = `<img src="${media}">`;
             
             if(videoUrl) {
+                // Utilisation du lien direct GitHub avec les attributs iPhone
                 mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:15px; text-align:center;">
                     <p style="font-size:0.7rem; color:var(--text-gold); margin-bottom:10px;">🎥 PRÉSENTATION VIDÉO</p>
-                    <video controls playsinline preload="metadata" style="width:100%; border-radius:12px; background:#000;">
+                    <video id="mainVideo" controls playsinline preload="auto" style="width:100%; border-radius:12px; background:#000;">
                         <source src="${videoUrl}" type="video/mp4">
                     </video>
                 </div>`;
@@ -159,6 +163,7 @@
             resetReview();
         }
 
+        // --- GESTION DES AVIS ---
         function setStar(n) {
             currentRating = n;
             document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
@@ -172,7 +177,7 @@
 
         function postReview() {
             const text = document.getElementById('review-text').value;
-            if(!currentRating || !text.trim()) return alert("Note + Message requis !");
+            if(!currentRating || !text.trim()) return alert("Veuillez remplir la note et le message !");
             const review = { id: Date.now(), prod: currentProduct, rating: currentRating, text: text, date: new Date().toLocaleDateString() };
             let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
             reviews.unshift(review);
@@ -189,7 +194,7 @@
                 html += `<div class="comment-item">
                     ${delBtn}
                     <div style="color:var(--text-gold); font-size:0.8rem; margin-bottom:5px;">${"★".repeat(r.rating)}</div>
-                    <div style="padding-right:20px;">${r.text}</div>
+                    <div style="padding-right:20px; font-size:0.9rem;">${r.text}</div>
                     <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">${r.date}</div>
                 </div>`;
             });
