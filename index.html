@@ -8,156 +8,159 @@
     <style>
         :root {
             --accent-red: #ff3e3e;
-            --glass-bg: rgba(15, 15, 15, 0.92);
+            --glass-bg: rgba(15, 15, 15, 0.95);
             --text-gold: #f1d279;
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            /* TON IMAGE IMGUR APPLIQUÉE ICI */
             background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            margin: 0; padding: 20px; color: white;
-            display: flex; flex-direction: column; align-items: center;
+            background-size: cover; background-position: center; background-attachment: fixed;
+            margin: 0; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center;
         }
 
         /* --- MENU PRINCIPAL --- */
-        .header { 
-            text-align: center; margin-bottom: 30px; margin-top: 20px;
-            background: rgba(0,0,0,0.7); padding: 10px 40px; 
-            border-radius: 50px; border: 2px solid var(--accent-red);
-            box-shadow: 0 0 15px rgba(255, 62, 62, 0.4);
-        }
-        .logo { font-size: 2.2rem; font-weight: 900; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,1); }
+        #main-menu { width: 100%; max-width: 400px; display: block; }
+        .header { text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 50px; border: 2px solid var(--accent-red); }
+        .logo { font-size: 2rem; font-weight: 900; margin: 0; }
 
         .category-card {
-            background: var(--glass-bg); backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px; width: 100%; max-width: 350px;
-            margin-bottom: 25px; padding: 18px; border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border-radius: 20px; margin-bottom: 20px; padding: 15px; border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .category-title { 
-            color: var(--text-gold); font-size: 1.2rem; font-weight: 800; 
-            margin-bottom: 15px; border-bottom: 2px solid var(--accent-red); 
-            padding-bottom: 8px; display: flex; align-items: center; gap: 10px;
-        }
+        .category-title { color: var(--text-gold); font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid var(--accent-red); padding-bottom: 5px; }
 
         .product-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 14px; margin: 8px 0; border-radius: 12px;
-            background: rgba(255,255,255,0.07); cursor: pointer; transition: 0.2s ease;
+            padding: 12px; margin: 8px 0; border-radius: 12px; background: rgba(255,255,255,0.05); cursor: pointer;
         }
-        .product-item:active { transform: scale(0.96); background: rgba(255,255,255,0.15); }
+        .price-tag { background: var(--accent-red); padding: 5px 12px; border-radius: 10px; font-weight: bold; }
 
-        .price-tag { 
-            background: linear-gradient(135deg, #ff3e3e, #8b0000); 
-            padding: 5px 12px; border-radius: 10px; font-weight: bold; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
+        /* --- VUE DÉTAILLÉE --- */
+        #details-view { display: none; width: 100%; max-width: 400px; background: var(--glass-bg); border-radius: 25px; padding: 20px; box-sizing: border-box; border: 1px solid var(--text-gold); }
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; }
+        .media-box img, .media-box video { width: 100%; display: block; }
 
-        /* --- MODALE DÉTAILS --- */
-        #details-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.96); z-index: 1000; overflow-y: auto; padding: 25px; box-sizing: border-box;
-        }
-        .modal-content { max-width: 400px; margin: 0 auto; text-align: center; }
-        .media-container { 
-            width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 20px; 
-            background: #111; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .media-container img, .media-container video { width: 100%; display: block; }
+        /* --- SECTION AVIS --- */
+        .review-section { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: left; }
+        .stars { display: flex; gap: 5px; margin: 10px 0; }
+        .star { font-size: 25px; color: #444; cursor: pointer; }
+        .star.active { color: var(--text-gold); }
         
-        .desc-text { color: #eee; line-height: 1.6; margin: 20px 0; font-size: 1rem; }
-
-        /* --- SYSTÈME D'ÉTOILES --- */
-        .rating { margin: 10px 0; display: flex; justify-content: center; gap: 5px; }
-        .star { font-size: 30px; color: #333; cursor: pointer; transition: 0.3s; }
-        .star.checked { color: var(--text-gold); text-shadow: 0 0 15px rgba(241, 210, 121, 0.6); }
-
-        .btn-close {
-            background: white; color: black; border: none; padding: 15px;
-            border-radius: 15px; margin-top: 25px; font-weight: 800; width: 100%;
-            text-transform: uppercase; letter-spacing: 1px;
+        textarea {
+            width: 100%; background: rgba(255,255,255,0.1); border: 1px solid #444; border-radius: 10px;
+            color: white; padding: 10px; box-sizing: border-box; font-family: inherit; resize: none; margin-bottom: 10px;
         }
 
-        .footer { margin-top: 20px; opacity: 0.5; font-size: 0.8rem; }
+        .btn-post { background: var(--text-gold); color: black; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 8px; width: 100%; border-radius: 10px; margin-top: 15px; cursor: pointer; }
+
     </style>
 </head>
 <body>
 
-    <div class="header"><h1 class="logo">SUSH'IT</h1></div>
+    <div id="main-menu">
+        <div class="header"><h1 class="logo">SUSH'IT</h1></div>
 
-    <div class="category-card">
-        <div class="category-title">❄️ FROZEN</div>
-        <div class="product-item" onclick="openDetails('Frozen 6g', 'https://i.imgur.com/xvvP6oB.jpeg', 'Qualité supérieure givrée. Récolte artisanale pour une pureté maximale.', '5')">
-            <span>Frozen 6g</span> <span class="price-tag">50€</span>
+        <div class="category-card">
+            <div class="category-title">❄️ FROZEN</div>
+            <div class="product-item" onclick="showProduct('Frozen 6g', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée unique.')"><span>6g</span><span class="price-tag">50€</span></div>
+            <div class="product-item" onclick="showProduct('Frozen 10g', 'https://i.imgur.com/xvvP6oB.jpeg', 'Le top du top.')"><span>10g</span><span class="price-tag">70€</span></div>
         </div>
-        <div class="product-item" onclick="openDetails('Frozen 10g', 'URL_VIDEO.mp4', 'Le sommet de la gamme Frozen. Un goût inoubliable.', '5')">
-            <span>Frozen 10g</span> <span class="price-tag">70€</span>
+
+        <div class="category-card">
+            <div class="category-title">💥 FILTRÉ</div>
+            <div class="product-item" onclick="showProduct('Filtré 6g', 'LIEN_IMAGE', 'Arômes intenses.')"><span>6g</span><span class="price-tag">50€</span></div>
+        </div>
+
+        <div class="category-card">
+            <div class="category-title">⚡️ STATIC</div>
+            <div class="product-item" onclick="showProduct('Static 10g', 'LIEN_IMAGE', 'Puissance pure.')"><span>10g</span><span class="price-tag">70€</span></div>
+        </div>
+        
+        <div class="category-card">
+            <div class="category-title">☁️ MOUSSEUX</div>
+            <div class="product-item" onclick="showProduct('Mousseux 12g', 'LIEN_IMAGE', 'Douceur extrême.')"><span>12g</span><span class="price-tag">50€</span></div>
         </div>
     </div>
 
-    <div class="category-card">
-        <div class="category-title">💥 FILTRÉ</div>
-        <div class="product-item" onclick="openDetails('Filtré 6g', 'IMAGE_URL', 'Texture parfaite et arômes puissants.', '4')">
-            <span>Filtré 6g</span> <span class="price-tag">50€</span>
-        </div>
-    </div>
+    <div id="details-view">
+        <div id="media-content" class="media-box"></div>
+        <h2 id="prod-title" style="color:var(--text-gold); margin: 0;"></h2>
+        <p id="prod-desc" style="opacity: 0.8; font-size: 0.9rem;"></p>
 
-    <div class="footer">⛩️ Sush'IT Premium Quality ⛩️</div>
-
-    <div id="details-modal">
-        <div class="modal-content">
-            <div id="modal-media" class="media-container"></div>
-            <h2 id="modal-title" style="color:var(--text-gold); margin: 10px 0;"></h2>
-            
-            <div class="rating">
-                <span class="star" onclick="rate(1)">★</span>
-                <span class="star" onclick="rate(2)">★</span>
-                <span class="star" onclick="rate(3)">★</span>
-                <span class="star" onclick="rate(4)">★</span>
-                <span class="star" onclick="rate(5)">★</span>
+        <div class="review-section">
+            <h4 style="margin: 0;">LAISSER UN AVIS</h4>
+            <div class="stars" id="star-rating">
+                <span class="star" onclick="setStar(1)">★</span>
+                <span class="star" onclick="setStar(2)">★</span>
+                <span class="star" onclick="setStar(3)">★</span>
+                <span class="star" onclick="setStar(4)">★</span>
+                <span class="star" onclick="setStar(5)">★</span>
             </div>
-
-            <p id="modal-desc" class="desc-text"></p>
-            <button class="btn-close" onclick="closeDetails()">RETOUR AU MENU</button>
+            <textarea id="review-text" rows="3" placeholder="Ton avis sur ce produit..."></textarea>
+            <button class="btn-post" onclick="sendReview()">POSTER L'AVIS</button>
         </div>
+
+        <button class="btn-back" onclick="goBack()">← RETOUR AU MENU</button>
     </div>
 
     <script>
-        const tele = window.Telegram.WebApp;
-        tele.expand();
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        let currentRating = 0;
 
-        function openDetails(title, mediaUrl, desc, rating) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-desc').innerText = desc;
-            const mediaBox = document.getElementById('modal-media');
+        function showProduct(title, media, desc) {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('details-view').style.display = 'block';
+            document.getElementById('prod-title').innerText = title;
+            document.getElementById('prod-desc').innerText = desc;
             
-            if(mediaUrl.includes('.mp4') || mediaUrl.includes('.mov')) {
-                mediaBox.innerHTML = `<video src="${mediaUrl}" controls autoplay loop></video>`;
+            const mediaBox = document.getElementById('media-content');
+            if(media.includes('.mp4')) {
+                mediaBox.innerHTML = `<video src="${media}" autoplay loop muted></video>`;
             } else {
-                mediaBox.innerHTML = `<img src="${mediaUrl}" onerror="this.src='https://i.imgur.com/xvvP6oB.jpeg'">`;
+                mediaBox.innerHTML = `<img src="${media}">`;
             }
-
-            document.getElementById('details-modal').style.display = 'block';
-            rate(rating);
+            window.scrollTo(0,0);
         }
 
-        function closeDetails() {
-            document.getElementById('details-modal').style.display = 'none';
-            document.getElementById('modal-media').innerHTML = '';
+        function goBack() {
+            document.getElementById('main-menu').style.display = 'block';
+            document.getElementById('details-view').style.display = 'none';
+            resetReview();
         }
 
-        function rate(n) {
-            const stars = document.getElementsByClassName('star');
-            for (let i = 0; i < stars.length; i++) {
-                stars[i].classList.remove('checked');
-                if (i < n) stars[i].classList.add('checked');
+        function setStar(n) {
+            currentRating = n;
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((s, i) => {
+                s.classList.toggle('active', i < n);
+            });
+        }
+
+        function resetReview() {
+            currentRating = 0;
+            document.getElementById('review-text').value = '';
+            setStar(0);
+        }
+
+        function sendReview() {
+            const text = document.getElementById('review-text').value;
+            const product = document.getElementById('prod-title').innerText;
+            if(currentRating === 0) {
+                alert("Choisis une note !");
+                return;
             }
+            // Envoie les données au Bot Telegram
+            tg.sendData(JSON.stringify({
+                event: "review",
+                product: product,
+                rating: currentRating,
+                comment: text
+            }));
+            alert("Merci ! Avis posté.");
+            goBack();
         }
     </script>
 </body>
