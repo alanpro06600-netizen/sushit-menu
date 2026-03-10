@@ -19,52 +19,50 @@
             background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
             background-size: cover; background-position: center; background-attachment: fixed;
             margin: 0; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center;
-            user-select: none; -webkit-user-select: none;
         }
 
-        /* --- MENU PRINCIPAL --- */
+        /* --- MENU --- */
         #main-menu { width: 100%; max-width: 400px; }
         .header { 
-            text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); 
+            text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.8); 
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red);
         }
-        .logo { font-size: 2rem; font-weight: 900; margin: 0; letter-spacing: 2px; }
+        .logo { font-size: 1.8rem; font-weight: 900; margin: 0; letter-spacing: 1px; }
         
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px; margin-bottom: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer; text-align: center; transition: transform 0.2s;
+            border-radius: 20px; margin-bottom: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer; text-align: center;
         }
-        .category-card:active { transform: scale(0.96); }
-        .cat-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
+        .cat-name { font-size: 1.3rem; font-weight: 900; text-transform: uppercase; }
 
         /* --- FICHE PRODUIT --- */
         #details-view { display: none; width: 100%; max-width: 400px; background: var(--glass-bg); border-radius: 25px; padding: 20px; border: 1px solid var(--text-gold); }
-        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; border: 1px solid #333; }
-        .media-box img, .media-box video { width: 100%; display: block; }
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; }
+        .media-box img, .media-box video { width: 100%; display: block; border-radius: 12px; }
 
-        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .price-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
-        .p-gram { font-weight: bold; color: var(--text-gold); font-size: 1.1rem; }
-        .p-value { display: block; font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .price-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
+        .p-gram { font-weight: bold; color: var(--text-gold); }
+        .p-value { display: block; font-size: 1.2rem; font-weight: 900; }
 
-        /* --- SYSTÈME D'AVIS --- */
-        .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; }
-        .stars { display: flex; gap: 8px; margin-bottom: 15px; justify-content: center; }
-        .star { font-size: 30px; color: #333; cursor: pointer; }
+        /* --- AVIS --- */
+        .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 15px; }
+        .stars { display: flex; gap: 5px; margin-bottom: 10px; justify-content: center; }
+        .star { font-size: 24px; color: #333; cursor: pointer; }
         .star.active { color: var(--text-gold); }
         
         textarea {
             width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px;
-            color: white; padding: 12px; font-family: inherit; margin-bottom: 10px; resize: none; outline: none;
+            color: white; padding: 10px; margin-bottom: 10px; resize: none; font-size: 0.9rem;
         }
         .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; }
         
-        #comments-list { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
-        .comment-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 10px; position: relative; }
-        .del-btn { position: absolute; top: 10px; right: 12px; color: #ff3e3e; font-weight: bold; cursor: pointer; }
+        #comments-list { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
+        .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; position: relative; font-size: 0.85rem; }
+        .del-btn { position: absolute; top: 5px; right: 10px; color: #ff3e3e; font-weight: bold; }
 
-        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 12px; width: 100%; border-radius: 10px; margin-top: 20px; font-weight: bold; }
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 12px; width: 100%; border-radius: 10px; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -82,7 +80,7 @@
             <span class="cat-name">⚡️ STATIC</span>
         </div>
         
-        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/34f621352eaf9bf7bbc185f7fa724ba912322b69/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/main/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
             <span class="cat-name">☁️ MOUSSEUX</span>
         </div>
     </div>
@@ -90,44 +88,40 @@
     <div id="details-view">
         <div id="media-content" class="media-box"></div>
         <h2 id="prod-title" style="color:var(--text-gold); margin: 0; text-transform: uppercase; text-align: center;"></h2>
-        <p id="prod-desc" style="opacity: 0.7; font-size: 0.9rem; margin-top: 5px; text-align: center;"></p>
+        <p id="prod-desc" style="opacity: 0.7; font-size: 0.85rem; margin-top: 5px; text-align: center;"></p>
         
         <div id="prod-prices" class="price-grid"></div>
 
         <div class="review-box">
-            <h4 style="margin: 0 0 15px 0; text-align: center;">AVIS CLIENTS</h4>
+            <h4 style="margin: 0 0 10px 0; text-align: center; font-size: 0.9rem;">AVIS CLIENTS</h4>
             <div class="stars" id="star-rating">
                 <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
             </div>
-            <textarea id="review-text" rows="2" placeholder="Laisse un commentaire..."></textarea>
-            <button class="btn-post" onclick="postReview()">POSTER MON AVIS</button>
+            <textarea id="review-text" rows="2" placeholder="Ton avis..."></textarea>
+            <button class="btn-post" onclick="postReview()">POSTER</button>
             <div id="comments-list"></div>
         </div>
-        
         <button class="btn-back" onclick="goBack()">← RETOUR</button>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        let currentRating = 0;
-        let currentProduct = "";
-        let adminMode = false;
+        let currentRating = 0, currentProduct = "", adminMode = false;
 
-        // --- ADMIN (3s sur Logo) ---
+        // Admin (3s sur logo)
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
         adminTrigger.addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
+                alert(adminMode ? "ADMIN ON" : "ADMIN OFF");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
         adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
 
-        // --- NAVIGATION ---
         function openProduct(title, media, desc, prices, videoUrl = null) {
             currentProduct = title;
             document.getElementById('main-menu').style.display = 'none';
@@ -138,10 +132,10 @@
             let mediaHtml = `<img src="${media}">`;
             
             if(videoUrl) {
-                // Utilisation du lien direct GitHub avec les attributs iPhone
-                mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:15px; text-align:center;">
-                    <p style="font-size:0.7rem; color:var(--text-gold); margin-bottom:10px;">🎥 PRÉSENTATION VIDÉO</p>
-                    <video id="mainVideo" controls playsinline preload="auto" style="width:100%; border-radius:12px; background:#000;">
+                // IMPORTANT : muted et playsinline sont obligatoires pour iOS
+                mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:10px;">
+                    <p style="font-size:0.6rem; color:var(--text-gold); text-align:center; margin-bottom:8px;">🎥 APERÇU VIDÉO</p>
+                    <video controls playsinline webkit-playsinline muted autoplay preload="auto" style="width:100%; border-radius:10px; background:#000;">
                         <source src="${videoUrl}" type="video/mp4">
                     </video>
                 </div>`;
@@ -163,7 +157,6 @@
             resetReview();
         }
 
-        // --- GESTION DES AVIS ---
         function setStar(n) {
             currentRating = n;
             document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
@@ -177,7 +170,7 @@
 
         function postReview() {
             const text = document.getElementById('review-text').value;
-            if(!currentRating || !text.trim()) return alert("Veuillez remplir la note et le message !");
+            if(!currentRating || !text.trim()) return alert("Note + Texte !");
             const review = { id: Date.now(), prod: currentProduct, rating: currentRating, text: text, date: new Date().toLocaleDateString() };
             let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
             reviews.unshift(review);
@@ -193,16 +186,16 @@
                 const delBtn = adminMode ? `<span class="del-btn" onclick="deleteReview(${r.id})">✕</span>` : "";
                 html += `<div class="comment-item">
                     ${delBtn}
-                    <div style="color:var(--text-gold); font-size:0.8rem; margin-bottom:5px;">${"★".repeat(r.rating)}</div>
-                    <div style="padding-right:20px; font-size:0.9rem;">${r.text}</div>
-                    <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">${r.date}</div>
+                    <div style="color:var(--text-gold); font-size:0.7rem;">${"★".repeat(r.rating)}</div>
+                    <div>${r.text}</div>
+                    <div style="font-size:0.55rem; opacity:0.4; margin-top:4px;">${r.date}</div>
                 </div>`;
             });
-            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.8rem; text-align:center;'>Aucun avis.</div>";
+            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.7rem; text-align:center;'>Aucun avis.</div>";
         }
 
         function deleteReview(id) {
-            if(confirm("Supprimer cet avis ?")) {
+            if(confirm("Supprimer ?")) {
                 let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
                 reviews = reviews.filter(r => r.id !== id);
                 localStorage.setItem('sushit_reviews', JSON.stringify(reviews));
