@@ -8,7 +8,7 @@
     <style>
         :root {
             --accent-red: #ff3e3e;
-            --glass-bg: rgba(15, 15, 15, 0.95);
+            --glass-bg: rgba(10, 10, 10, 0.96);
             --text-gold: #f1d279;
         }
 
@@ -19,109 +19,114 @@
             margin: 0; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- MENU PRINCIPAL --- */
+        /* --- MENU PRINCIPAL (ÉPURÉ) --- */
         #main-menu { width: 100%; max-width: 400px; display: block; }
         .header { text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 50px; border: 2px solid var(--accent-red); }
-        .logo { font-size: 2rem; font-weight: 900; margin: 0; }
-
+        
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px);
-            border-radius: 20px; margin-bottom: 20px; padding: 15px; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; margin-bottom: 15px; padding: 20px; border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer; transition: 0.3s; text-align: center;
         }
-        .category-title { color: var(--text-gold); font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid var(--accent-red); padding-bottom: 5px; }
+        .category-card:active { transform: scale(0.95); border-color: var(--accent-red); }
+        .cat-name { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
 
-        .product-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px; margin: 8px 0; border-radius: 12px; background: rgba(255,255,255,0.05); cursor: pointer;
-        }
-        .price-tag { background: var(--accent-red); padding: 5px 12px; border-radius: 10px; font-weight: bold; }
-
-        /* --- VUE DÉTAILLÉE --- */
+        /* --- FICHE PRODUIT --- */
         #details-view { display: none; width: 100%; max-width: 400px; background: var(--glass-bg); border-radius: 25px; padding: 20px; box-sizing: border-box; border: 1px solid var(--text-gold); }
-        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; }
-        .media-box img, .media-box video { width: 100%; display: block; }
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; border: 1px solid #333; }
+        .media-box img { width: 100%; display: block; }
 
-        /* --- SECTION AVIS --- */
-        .review-section { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: left; }
-        .stars { display: flex; gap: 5px; margin: 10px 0; }
-        .star { font-size: 25px; color: #444; cursor: pointer; }
+        /* --- GRILLE DES PRIX --- */
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .price-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
+        .p-gram { font-weight: bold; color: var(--text-gold); font-size: 1.1rem; }
+        .p-value { display: block; font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
+
+        /* --- AVIS --- */
+        .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; text-align: left; }
+        .stars { display: flex; gap: 5px; margin-bottom: 10px; }
+        .star { font-size: 22px; color: #333; cursor: pointer; }
         .star.active { color: var(--text-gold); }
         
         textarea {
-            width: 100%; background: rgba(255,255,255,0.1); border: 1px solid #444; border-radius: 10px;
-            color: white; padding: 10px; box-sizing: border-box; font-family: inherit; resize: none; margin-bottom: 10px;
+            width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px;
+            color: white; padding: 10px; box-sizing: border-box; font-family: inherit; margin-bottom: 10px;
         }
+        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; }
+        
+        #comments-list { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
+        .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 0.85rem; }
+        .comment-stars { color: var(--text-gold); font-size: 0.7rem; margin-bottom: 3px; }
 
-        .btn-post { background: var(--text-gold); color: black; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 8px; width: 100%; border-radius: 10px; margin-top: 15px; cursor: pointer; }
-
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 10px; width: 100%; border-radius: 10px; margin-top: 20px; opacity: 0.7; }
     </style>
 </head>
 <body>
 
     <div id="main-menu">
         <div class="header"><h1 class="logo">SUSH'IT</h1></div>
-
-        <div class="category-card">
-            <div class="category-title">❄️ FROZEN</div>
-            <div class="product-item" onclick="showProduct('Frozen 6g', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée unique.')"><span>6g</span><span class="price-tag">50€</span></div>
-            <div class="product-item" onclick="showProduct('Frozen 10g', 'https://i.imgur.com/xvvP6oB.jpeg', 'Le top du top.')"><span>10g</span><span class="price-tag">70€</span></div>
-        </div>
-
-        <div class="category-card">
-            <div class="category-title">💥 FILTRÉ</div>
-            <div class="product-item" onclick="showProduct('Filtré 6g', 'LIEN_IMAGE', 'Arômes intenses.')"><span>6g</span><span class="price-tag">50€</span></div>
-        </div>
-
-        <div class="category-card">
-            <div class="category-title">⚡️ STATIC</div>
-            <div class="product-item" onclick="showProduct('Static 10g', 'LIEN_IMAGE', 'Puissance pure.')"><span>10g</span><span class="price-tag">70€</span></div>
-        </div>
         
-        <div class="category-card">
-            <div class="category-title">☁️ MOUSSEUX</div>
-            <div class="product-item" onclick="showProduct('Mousseux 12g', 'LIEN_IMAGE', 'Douceur extrême.')"><span>12g</span><span class="price-tag">50€</span></div>
+        <div class="category-card" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€']])">
+            <span class="cat-name">❄️ FROZEN</span>
+        </div>
+
+        <div class="category-card" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel Japonais.', [['2g','20€'],['6g','50€'],['10g','70€']])">
+            <span class="cat-name">💥 FILTRÉ</span>
+        </div>
+
+        <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€']])">
+            <span class="cat-name">⚡️ STATIC</span>
+        </div>
+
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']])">
+            <span class="cat-name">☁️ MOUSSEUX</span>
         </div>
     </div>
 
     <div id="details-view">
         <div id="media-content" class="media-box"></div>
-        <h2 id="prod-title" style="color:var(--text-gold); margin: 0;"></h2>
-        <p id="prod-desc" style="opacity: 0.8; font-size: 0.9rem;"></p>
+        <h2 id="prod-title" style="color:var(--text-gold); margin: 0; text-transform: uppercase;"></h2>
+        <p id="prod-desc" style="opacity: 0.7; font-size: 0.9rem; margin-top: 5px;"></p>
 
-        <div class="review-section">
-            <h4 style="margin: 0;">LAISSER UN AVIS</h4>
+        <div id="prod-prices" class="price-grid"></div>
+
+        <div class="review-box">
+            <h4 style="margin: 0 0 10px 0;">AVIS CLIENTS</h4>
             <div class="stars" id="star-rating">
-                <span class="star" onclick="setStar(1)">★</span>
-                <span class="star" onclick="setStar(2)">★</span>
-                <span class="star" onclick="setStar(3)">★</span>
-                <span class="star" onclick="setStar(4)">★</span>
-                <span class="star" onclick="setStar(5)">★</span>
+                <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
             </div>
-            <textarea id="review-text" rows="3" placeholder="Ton avis sur ce produit..."></textarea>
-            <button class="btn-post" onclick="sendReview()">POSTER L'AVIS</button>
+            <textarea id="review-text" rows="2" placeholder="Laisse un message..."></textarea>
+            <button class="btn-post" onclick="postReview()">POSTER MON AVIS</button>
+
+            <div id="comments-list">
+                </div>
         </div>
 
-        <button class="btn-back" onclick="goBack()">← RETOUR AU MENU</button>
+        <button class="btn-back" onclick="goBack()">← RETOUR</button>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         let currentRating = 0;
+        let currentProduct = "";
 
-        function showProduct(title, media, desc) {
+        function openProduct(title, media, desc, prices) {
+            currentProduct = title;
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('details-view').style.display = 'block';
             document.getElementById('prod-title').innerText = title;
             document.getElementById('prod-desc').innerText = desc;
+            document.getElementById('media-content').innerHTML = `<img src="${media}">`;
             
-            const mediaBox = document.getElementById('media-content');
-            if(media.includes('.mp4')) {
-                mediaBox.innerHTML = `<video src="${media}" autoplay loop muted></video>`;
-            } else {
-                mediaBox.innerHTML = `<img src="${media}">`;
-            }
+            // Génération des prix
+            let priceHtml = "";
+            prices.forEach(p => {
+                priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`;
+            });
+            document.getElementById('prod-prices').innerHTML = priceHtml;
+            
+            loadComments();
             window.scrollTo(0,0);
         }
 
@@ -134,9 +139,7 @@
         function setStar(n) {
             currentRating = n;
             const stars = document.querySelectorAll('.star');
-            stars.forEach((s, i) => {
-                s.classList.toggle('active', i < n);
-            });
+            stars.forEach((s, i) => s.classList.toggle('active', i < n));
         }
 
         function resetReview() {
@@ -145,22 +148,36 @@
             setStar(0);
         }
 
-        function sendReview() {
+        function postReview() {
             const text = document.getElementById('review-text').value;
-            const product = document.getElementById('prod-title').innerText;
-            if(currentRating === 0) {
-                alert("Choisis une note !");
-                return;
-            }
-            // Envoie les données au Bot Telegram
-            tg.sendData(JSON.stringify({
-                event: "review",
-                product: product,
+            if(!currentRating || !text) return alert("Note + Message requis !");
+            
+            const review = {
+                prod: currentProduct,
                 rating: currentRating,
-                comment: text
-            }));
-            alert("Merci ! Avis posté.");
-            goBack();
+                text: text,
+                date: new Date().toLocaleDateString()
+            };
+
+            let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
+            reviews.unshift(review);
+            localStorage.setItem('sushit_reviews', JSON.stringify(reviews));
+            
+            resetReview();
+            loadComments();
+        }
+
+        function loadComments() {
+            let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
+            let html = "";
+            reviews.filter(r => r.prod === currentProduct).forEach(r => {
+                html += `<div class="comment-item">
+                    <div class="comment-stars">${"★".repeat(r.rating)}</div>
+                    <div>${r.text}</div>
+                    <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">Posté le ${r.date}</div>
+                </div>`;
+            });
+            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.8rem;'>Aucun avis pour le moment.</div>";
         }
     </script>
 </body>
