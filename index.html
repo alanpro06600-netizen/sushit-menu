@@ -19,13 +19,18 @@
             margin: 0; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- MENU PRINCIPAL (ÉPURÉ) --- */
+        /* --- MENU PRINCIPAL --- */
         #main-menu { width: 100%; max-width: 400px; display: block; }
-        .header { text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 50px; border: 2px solid var(--accent-red); }
+        .header { 
+            text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.7); 
+            padding: 10px; border-radius: 50px; border: 2px solid var(--accent-red);
+            cursor: pointer; user-select: none; -webkit-user-select: none;
+        }
+        .logo { font-size: 2rem; font-weight: 900; margin: 0; pointer-events: none; }
         
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px);
-            border-radius: 20px; margin-bottom: 15px; padding: 20px; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; margin-bottom: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer; transition: 0.3s; text-align: center;
         }
         .category-card:active { transform: scale(0.95); border-color: var(--accent-red); }
@@ -34,7 +39,7 @@
         /* --- FICHE PRODUIT --- */
         #details-view { display: none; width: 100%; max-width: 400px; background: var(--glass-bg); border-radius: 25px; padding: 20px; box-sizing: border-box; border: 1px solid var(--text-gold); }
         .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; border: 1px solid #333; }
-        .media-box img { width: 100%; display: block; }
+        .media-box img, .media-box video { width: 100%; display: block; }
 
         /* --- GRILLE DES PRIX --- */
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
@@ -42,29 +47,30 @@
         .p-gram { font-weight: bold; color: var(--text-gold); font-size: 1.1rem; }
         .p-value { display: block; font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
 
-        /* --- AVIS --- */
+        /* --- SECTION AVIS --- */
         .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; text-align: left; }
-        .stars { display: flex; gap: 5px; margin-bottom: 10px; }
-        .star { font-size: 22px; color: #333; cursor: pointer; }
-        .star.active { color: var(--text-gold); }
+        .stars { display: flex; gap: 5px; margin-bottom: 10px; justify-content: center; }
+        .star { font-size: 28px; color: #333; cursor: pointer; transition: 0.2s; }
+        .star.active { color: var(--text-gold); text-shadow: 0 0 10px rgba(241,210,121,0.5); }
         
         textarea {
             width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px;
-            color: white; padding: 10px; box-sizing: border-box; font-family: inherit; margin-bottom: 10px;
+            color: white; padding: 12px; box-sizing: border-box; font-family: inherit; margin-bottom: 10px; resize: none;
         }
-        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; }
+        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
         
         #comments-list { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
-        .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 0.85rem; }
-        .comment-stars { color: var(--text-gold); font-size: 0.7rem; margin-bottom: 3px; }
+        .comment-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 10px; font-size: 0.9rem; position: relative; }
+        .comment-stars { color: var(--text-gold); font-size: 0.8rem; margin-bottom: 5px; }
+        .del-btn { position: absolute; top: 8px; right: 10px; color: #ff3e3e; font-weight: bold; padding: 5px; cursor: pointer; }
 
-        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 10px; width: 100%; border-radius: 10px; margin-top: 20px; opacity: 0.7; }
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 12px; width: 100%; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="main-menu">
-        <div class="header"><h1 class="logo">SUSH'IT</h1></div>
+        <div class="header" id="admin-trigger"><h1 class="logo">SUSH'IT</h1></div>
         
         <div class="category-card" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€']])">
             <span class="cat-name">❄️ FROZEN</span>
@@ -91,18 +97,17 @@
         <div id="prod-prices" class="price-grid"></div>
 
         <div class="review-box">
-            <h4 style="margin: 0 0 10px 0;">AVIS CLIENTS</h4>
+            <h4 style="margin: 0 0 15px 0; text-align: center;">AVIS CLIENTS</h4>
             <div class="stars" id="star-rating">
                 <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
             </div>
-            <textarea id="review-text" rows="2" placeholder="Laisse un message..."></textarea>
+            <textarea id="review-text" rows="2" placeholder="Écris ton avis ici..."></textarea>
             <button class="btn-post" onclick="postReview()">POSTER MON AVIS</button>
 
-            <div id="comments-list">
-                </div>
+            <div id="comments-list"></div>
         </div>
 
-        <button class="btn-back" onclick="goBack()">← RETOUR</button>
+        <button class="btn-back" onclick="goBack()">← RETOUR AU MENU</button>
     </div>
 
     <script>
@@ -110,6 +115,20 @@
         tg.expand();
         let currentRating = 0;
         let currentProduct = "";
+        let adminMode = false;
+
+        // --- MODE ADMIN CACHÉ (Appui long 3s sur le logo) ---
+        const adminBtn = document.getElementById('admin-trigger');
+        let timer;
+        adminBtn.addEventListener('touchstart', () => {
+            timer = setTimeout(() => {
+                adminMode = !adminMode;
+                tg.HapticFeedback.notificationOccurred('success');
+                alert(adminMode ? "ADMIN MODE ACTIVE 🔓" : "ADMIN MODE DESACTIVE 🔒");
+                if (document.getElementById('details-view').style.display === 'block') loadComments();
+            }, 3000);
+        });
+        adminBtn.addEventListener('touchend', () => clearTimeout(timer));
 
         function openProduct(title, media, desc, prices) {
             currentProduct = title;
@@ -119,7 +138,6 @@
             document.getElementById('prod-desc').innerText = desc;
             document.getElementById('media-content').innerHTML = `<img src="${media}">`;
             
-            // Génération des prix
             let priceHtml = "";
             prices.forEach(p => {
                 priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`;
@@ -138,8 +156,7 @@
 
         function setStar(n) {
             currentRating = n;
-            const stars = document.querySelectorAll('.star');
-            stars.forEach((s, i) => s.classList.toggle('active', i < n));
+            document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n));
         }
 
         function resetReview() {
@@ -150,9 +167,10 @@
 
         function postReview() {
             const text = document.getElementById('review-text').value;
-            if(!currentRating || !text) return alert("Note + Message requis !");
+            if(!currentRating || !text.trim()) return alert("Ajoute une note et un message !");
             
             const review = {
+                id: Date.now(),
                 prod: currentProduct,
                 rating: currentRating,
                 text: text,
@@ -171,13 +189,24 @@
             let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
             let html = "";
             reviews.filter(r => r.prod === currentProduct).forEach(r => {
+                const delBtn = adminMode ? `<span class="del-btn" onclick="deleteReview(${r.id})">✕</span>` : "";
                 html += `<div class="comment-item">
+                    ${delBtn}
                     <div class="comment-stars">${"★".repeat(r.rating)}</div>
                     <div>${r.text}</div>
-                    <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">Posté le ${r.date}</div>
+                    <div style="font-size:0.6rem; opacity:0.4; margin-top:5px;">${r.date}</div>
                 </div>`;
             });
-            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.8rem;'>Aucun avis pour le moment.</div>";
+            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; font-size:0.8rem; text-align:center;'>Aucun avis pour le moment.</div>";
+        }
+
+        function deleteReview(id) {
+            if(confirm("Supprimer cet avis ?")) {
+                let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
+                reviews = reviews.filter(r => r.id !== id);
+                localStorage.setItem('sushit_reviews', JSON.stringify(reviews));
+                loadComments();
+            }
         }
     </script>
 </body>
