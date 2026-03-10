@@ -19,6 +19,7 @@
             background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
             background-size: cover; background-position: center; background-attachment: fixed;
             margin: 0; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center;
+            user-select: none; -webkit-user-select: none;
         }
 
         /* --- MENU --- */
@@ -38,7 +39,7 @@
 
         /* --- FICHE PRODUIT --- */
         #details-view { display: none; width: 100%; max-width: 400px; background: var(--glass-bg); border-radius: 25px; padding: 20px; border: 1px solid var(--text-gold); }
-        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; }
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; border: 1px solid #333; }
         .media-box img, .media-box video { width: 100%; display: block; border-radius: 12px; }
 
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
@@ -60,7 +61,7 @@
         
         #comments-list { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
         .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; position: relative; font-size: 0.85rem; }
-        .del-btn { position: absolute; top: 5px; right: 10px; color: #ff3e3e; font-weight: bold; }
+        .del-btn { position: absolute; top: 5px; right: 10px; color: #ff3e3e; font-weight: bold; cursor: pointer; }
 
         .btn-back { background: transparent; color: white; border: 1px solid white; padding: 12px; width: 100%; border-radius: 10px; margin-top: 15px; font-weight: bold; }
     </style>
@@ -80,7 +81,7 @@
             <span class="cat-name">⚡️ STATIC</span>
         </div>
         
-        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/main/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://www.dropbox.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16&st=x8bqu2m6&raw=1')">
             <span class="cat-name">☁️ MOUSSEUX</span>
         </div>
     </div>
@@ -97,7 +98,7 @@
             <div class="stars" id="star-rating">
                 <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
             </div>
-            <textarea id="review-text" rows="2" placeholder="Ton avis..."></textarea>
+            <textarea id="review-text" rows="2" placeholder="Laisse un avis..."></textarea>
             <button class="btn-post" onclick="postReview()">POSTER</button>
             <div id="comments-list"></div>
         </div>
@@ -109,14 +110,14 @@
         tg.expand();
         let currentRating = 0, currentProduct = "", adminMode = false;
 
-        // Admin (3s sur logo)
+        // Admin Mode (3s sur logo)
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
         adminTrigger.addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN ON" : "ADMIN OFF");
+                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
@@ -132,7 +133,6 @@
             let mediaHtml = `<img src="${media}">`;
             
             if(videoUrl) {
-                // IMPORTANT : muted et playsinline sont obligatoires pour iOS
                 mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:10px;">
                     <p style="font-size:0.6rem; color:var(--text-gold); text-align:center; margin-bottom:8px;">🎥 APERÇU VIDÉO</p>
                     <video controls playsinline webkit-playsinline muted autoplay preload="auto" style="width:100%; border-radius:10px; background:#000;">
@@ -170,7 +170,7 @@
 
         function postReview() {
             const text = document.getElementById('review-text').value;
-            if(!currentRating || !text.trim()) return alert("Note + Texte !");
+            if(!currentRating || !text.trim()) return alert("Note et texte requis !");
             const review = { id: Date.now(), prod: currentProduct, rating: currentRating, text: text, date: new Date().toLocaleDateString() };
             let reviews = JSON.parse(localStorage.getItem('sushit_reviews') || "[]");
             reviews.unshift(review);
