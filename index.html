@@ -1,211 +1,144 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sush'IT Menu</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #f4ece1; /* Effet vieux papier */
+            --accent-red: #e63946; /* Rouge Japon / Sush'IT */
+            --frozen-blue: #a8dadc;
+            --text-dark: #1d3557;
+            --gold: #d4af37;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* Texture légère */
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-<title>Sush'it Menu</title>
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-<style>
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1);
+            margin: 0;
+        }
 
-body{
-margin:0;
-font-family:Arial, sans-serif;
-color:#222;
+        .subtitle {
+            font-style: italic;
+            font-weight: bold;
+            color: var(--text-dark);
+            border-top: 2px solid var(--accent-red);
+            padding-top: 5px;
+        }
 
-/* fond japonais /
+        .category-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent-red);
+        }
 
-background-image:url("https://www.transparenttextures.com/patterns/japanese-wave.png");
-background-color:#f5f1e9;
-}
+        .category-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
 
-/ header /
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+        }
 
-.header{
-text-align:center;
-padding:35px;
-font-size:34px;
-font-weight:bold;
-color:white;
-background:#c40000;
-letter-spacing:3px;
-}
+        .price-row:last-child { border-bottom: none; }
 
-/ section /
+        .weight { font-weight: bold; font-size: 1.1rem; }
+        .price { 
+            background: var(--accent-red); 
+            color: white; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-weight: 900;
+        }
 
-.section{
-padding:20px;
-}
+        /* Styles Spécifiques par Catégorie */
+        .frozen { border-left-color: #457b9d; }
+        .static { border-left-color: #ffb703; }
 
-/ titre catégorie /
-
-.section-title{
-font-size:26px;
-margin-bottom:15px;
-color:#c40000;
-font-weight:bold;
-}
-
-/ produit /
-
-.product{
-display:flex;
-align-items:center;
-background:white;
-border-radius:15px;
-padding:10px;
-margin-bottom:15px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-/ image produit /
-
-.product img,
-.product video{
-width:110px;
-height:110px;
-border-radius:10px;
-object-fit:cover;
-margin-right:15px;
-}
-
-/ info /
-
-.product-info{
-flex:1;
-}
-
-.product-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:5px;
-}
-
-.price{
-color:#c40000;
-font-size:16px;
-margin:2px 0;
-}
-
-/ décor japonais */
-
-.decor{
-text-align:center;
-font-size:28px;
-margin:20px 0;
-}
-
-</style>
-
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="header">
-🍣 SUSH'IT MENU
-</div>
+    <div class="header">
+        <h1 class="logo">SUSH'IT</h1>
+        <div class="subtitle">PREMIUM MENU</div>
+    </div>
 
-<div class="decor">
-🌸 🌊 🏮 🌸
-</div>
+    <div class="category-card frozen">
+        <div class="category-title">❄️ FROZEN</div>
+        <div class="price-row"><span class="weight">2g</span> <span class="price">20€</span></div>
+        <div class="price-row"><span class="weight">6g</span> <span class="price">50€</span></div>
+        <div class="price-row"><span class="weight">10g</span> <span class="price">70€</span></div>
+    </div>
 
-<div class="section">
+    <div class="category-card">
+        <div class="category-title">💥 FILTRÉ</div>
+        <div class="price-row"><span class="weight">2g</span> <span class="price">20€</span></div>
+        <div class="price-row"><span class="weight">6g</span> <span class="price">50€</span></div>
+        <div class="price-row"><span class="weight">10g</span> <span class="price">70€</span></div>
+    </div>
 
-<div class="section-title">❄️ Frozen</div>
+    <div class="category-card static">
+        <div class="category-title">⚡️ STATIC</div>
+        <div class="price-row"><span class="weight">2g</span> <span class="price">20€</span></div>
+        <div class="price-row"><span class="weight">6g</span> <span class="price">50€</span></div>
+        <div class="price-row"><span class="weight">10g</span> <span class="price">70€</span></div>
+    </div>
 
-<div class="product">
+    <div class="footer">
+        🇯🇵 Qualité Supérieure • Sush'IT 2024
+    </div>
 
-<img src="image-frozen.jpg">
-
-<div class="product-info">
-
-<div class="product-title">Frozen</div>
-
-<div class="price">2g — 20€</div>
-<div class="price">6g — 50€</div>
-<div class="price">10g — 70€</div>
-
-</div>
-</div>
-
-</div>
-
-<div class="decor">
-⛩️ 🌊 ⛩️
-</div>
-
-<div class="section">
-
-<div class="section-title">💥 Filtré</div>
-
-<div class="product">
-
-<img src="image-filtre.jpg">
-
-<div class="product-info">
-
-<div class="product-title">Filtré</div>
-
-<div class="price">2g — 20€</div>
-<div class="price">6g — 50€</div>
-<div class="price">10g — 70€</div>
-
-</div>
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="section-title">⚡ Static</div>
-
-<div class="product">
-
-<img src="image-static.jpg">
-
-<div class="product-info">
-
-<div class="product-title">Static</div>
-
-<div class="price">2g — 20€</div>
-<div class="price">6g — 50€</div>
-<div class="price">10g — 70€</div>
-
-</div>
-</div>
-
-</div>
-
-<div class="decor">
-🌸 🏮 🌸
-</div>
-
-<div class="section">
-
-<div class="section-title">🧽 Mousseux</div>
-
-<div class="product">
-
-<img src="image-mousseux.jpg">
-
-<div class="product-info">
-
-<div class="product-title">Mousseux</div>
-
-<div class="price">2g — 10€</div>
-<div class="price">4.5g — 20€</div>
-<div class="price">12g — 50€</div>
-
-</div>
-</div>
-
-</div>
-
-<div class="decor">
-🍣 🌊 🍣
-</div>
-
+    <script>
+        // Initialise la Mini App Telegram
+        const tele = window.Telegram.WebApp;
+        tele.expand(); // Ouvre la fenêtre en grand
+        tele.MainButton.text = "FERMER LE MENU";
+        tele.MainButton.show();
+        tele.MainButton.onClick(() => tele.close());
+    </script>
 </body>
 </html>
