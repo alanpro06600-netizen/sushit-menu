@@ -29,7 +29,7 @@
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red);
             -webkit-touch-callout: none;
         }
-        .logo { font-size: 2rem; font-weight: 900; margin: 0; }
+        .logo { font-size: 2rem; font-weight: 900; margin: 0; pointer-events: none; }
         
         .category-card {
             background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -81,7 +81,7 @@
         <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€']])">
             <span class="cat-name">⚡️ STATIC</span>
         </div>
-        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://i.imgur.com/8mYI8R9.mp4')">
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://raw.githubusercontent.com/alanpro06600-netizen/Vid-o-mousse-m-ms/34f621352eaf9bf7bbc185f7fa724ba912322b69/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4')">
             <span class="cat-name">☁️ MOUSSEUX</span>
         </div>
     </div>
@@ -112,7 +112,7 @@
         let currentProduct = "";
         let adminMode = false;
 
-        // --- ADMIN (3s sur LOGO) ---
+        // --- ADMIN ---
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
         adminTrigger.addEventListener('touchstart', () => {
@@ -124,6 +124,7 @@
             }, 3000);
         });
         adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
+        adminTrigger.addEventListener('contextmenu', (e) => e.preventDefault());
 
         function openProduct(title, media, desc, prices, videoUrl = null) {
             currentProduct = title;
@@ -137,7 +138,7 @@
             if(videoUrl) {
                 mediaHtml += `<div style="margin-top:15px; border-top:1px solid #333; padding-top:15px; text-align:center;">
                     <p style="font-size:0.7rem; color:var(--text-gold); margin-bottom:10px;">🎥 PRÉSENTATION VIDÉO</p>
-                    <video controls playsinline preload="auto" style="width:100%; border-radius:12px; background:#000;">
+                    <video controls playsinline preload="metadata" style="width:100%; border-radius:12px; background:#000;">
                         <source src="${videoUrl}" type="video/mp4">
                     </video>
                 </div>`;
