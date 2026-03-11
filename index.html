@@ -37,10 +37,29 @@
         }
         .cat-name { font-size: 1.3rem; font-weight: 900; text-transform: uppercase; }
 
-        /* --- FICHE PRODUIT --- */
+        /* --- FICHE PRODUIT (MODIFIÉ POUR FORMAT CARRÉ) --- */
         #details-view { display: none; width: 100%; max-width: 400px; background: var(--glass-bg); border-radius: 25px; padding: 20px; border: 1px solid var(--text-gold); }
-        .media-box { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background: #000; border: 1px solid #333; }
-        .media-box img, .media-box video { width: 100%; display: block; border-radius: 12px; }
+        
+        .media-box { 
+            width: 100%; 
+            max-width: 280px; /* Limite la largeur du carré */
+            aspect-ratio: 1 / 1; /* Force le format carré */
+            margin: 0 auto 15px auto; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            background: #000; 
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .media-box img, .media-box video { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Remplit le carré sans déformer */
+            border-radius: 12px; 
+        }
 
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .price-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
@@ -110,14 +129,13 @@
         tg.expand();
         let currentRating = 0, currentProduct = "", adminMode = false;
 
-        // Admin Mode (3s sur logo)
         const adminTrigger = document.getElementById('admin-trigger');
         let pressTimer;
         adminTrigger.addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIF 🔒");
+                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
                 if (document.getElementById('details-view').style.display === 'block') loadComments();
             }, 3000);
         });
@@ -130,20 +148,16 @@
             document.getElementById('prod-title').innerText = title;
             document.getElementById('prod-desc').innerText = desc;
             
-            // Initialisation de la zone média
             let mediaHtml = "";
             
             if(videoUrl) {
-                // MODIFICATION : On n'affiche QUE la vidéo, pas l'image du tsunami au-dessus
-                mediaHtml += `<div style="text-align:center;">
-                    <p style="font-size:0.6rem; color:var(--text-gold); text-align:center; margin-bottom:8px;">🎥 APERÇU VIDÉO</p>
-                    <video controls playsinline webkit-playsinline muted autoplay preload="auto" style="width:100%; border-radius:10px; background:#000;">
-                        <source src="${videoUrl}" type="video/mp4">
-                    </video>
-                </div>`;
+                // Vidéo en format carré
+                mediaHtml = `<video id="videoPlayer" controls playsinline webkit-playsinline muted autoplay preload="auto">
+                                <source src="${videoUrl}" type="video/mp4">
+                             </video>`;
             } else {
-                // Si pas de vidéo, on affiche l'image par défaut
-                mediaHtml = `<img src="${media}" style="width:100%;">`;
+                // Image en format carré
+                mediaHtml = `<img src="${media}">`;
             }
             document.getElementById('media-content').innerHTML = mediaHtml;
             
@@ -159,6 +173,9 @@
         function goBack() {
             document.getElementById('main-menu').style.display = 'block';
             document.getElementById('details-view').style.display = 'none';
+            // Stop la vidéo si on quitte
+            const v = document.getElementById('videoPlayer');
+            if(v) v.pause();
             resetReview();
         }
 
