@@ -19,7 +19,6 @@
             background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
             background-size: cover; background-position: center; background-attachment: fixed;
             margin: 0; padding: 0; color: white;
-            /* Permet le swipe sur toute la page */
             overflow-y: auto;
             height: 100vh;
         }
@@ -46,15 +45,16 @@
             margin: 0 auto;
             background: var(--glass-bg); 
             min-height: 100vh;
-            /* DISTANCE AVEC LE HAUT : 60px pour bien dégager les flèches Telegram */
+            /* MARGE DE SÉCURITÉ HAUT POUR TELEGRAM */
             padding: 60px 20px 40px 20px; 
             border-left: 1px solid var(--text-gold);
             border-right: 1px solid var(--text-gold);
+            overflow-y: auto;
         }
         
         .media-box { 
             width: 100%; 
-            aspect-ratio: 1 / 1; /* Retour au format carré large de tout à l'heure */
+            aspect-ratio: 1 / 1; 
             margin-bottom: 20px; 
             border-radius: 15px; 
             overflow: hidden; 
@@ -68,6 +68,7 @@
             object-fit: cover;
         }
 
+        /* Grille adaptée pour 4 prix (2x2) */
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .price-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
         .p-gram { font-weight: bold; color: var(--text-gold); }
@@ -86,10 +87,14 @@
 
     <div id="main-menu">
         <div class="header"><h1 class="logo">SUSH'IT</h1></div>
-        <div class="category-card" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€']])">❄️ FROZEN</div>
-        <div class="category-card" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel.', [['2g','20€'],['6g','50€'],['10g','70€']])">💥 FILTRÉ</div>
-        <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€']])">⚡️ STATIC</div>
-        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€']], 'https://www.dropbox.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16&st=x8bqu2m6&raw=1')">🧽 MOUSSEUX</div>
+        
+        <div class="category-card" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']])">❄️ FROZEN</div>
+        
+        <div class="category-card" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']])">💥 FILTRÉ</div>
+        
+        <div class="category-card" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','160€']])">⚡️ STATIC</div>
+        
+        <div class="category-card" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']], 'https://www.dropbox.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16&st=x8bqu2m6&raw=1')">🧽 MOUSSEUX</div>
     </div>
 
     <div id="details-view">
@@ -113,6 +118,7 @@
         tg.expand();
 
         function openProduct(title, media, desc, prices, videoUrl = null) {
+            currentProduct = title;
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('details-view').style.display = 'block';
             document.getElementById('prod-title').innerText = title;
@@ -139,10 +145,8 @@
             const v = document.getElementById('vp'); if(v) v.pause();
         }
 
-        function setStar(n) { 
-            currentRating = n; 
-            document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); 
-        }
+        let currentRating = 0, currentProduct = "";
+        function setStar(n) { currentRating = n; document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); }
 
         function postReview() {
             const text = document.getElementById('review-text').value;
