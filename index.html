@@ -21,71 +21,78 @@
             margin: 0; padding: 0; color: white; overflow-x: hidden;
         }
 
-        /* --- MENU STYLE IMAGE EXEMPLE --- */
+        /* --- MENU --- */
         #main-menu { padding: 20px; width: 100%; max-width: 450px; margin: 0 auto; }
         .header { text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red); cursor: pointer; }
         .logo { font-size: 1.8rem; font-weight: 900; margin: 0; }
 
         .category-item {
-            background: var(--glass-bg);
-            border-radius: 15px;
-            margin-bottom: 10px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.08);
-            cursor: pointer;
-            transition: background 0.2s;
+            background: var(--glass-bg); border-radius: 15px; margin-bottom: 10px; padding: 18px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
         }
-        .category-item:active { background: rgba(255,255,255,0.15); }
         .cat-left { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 600; }
         .cat-icon { font-size: 1.4rem; width: 30px; text-align: center; }
         .arrow-right { opacity: 0.4; font-size: 1.2rem; }
 
-        /* --- FICHE PRODUIT (PANNEAU COULISSANT) --- */
+        /* --- FICHE PRODUIT --- */
         #details-view { 
-            display: none; 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7); z-index: 999;
             overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
 
         .modal-content {
-            width: 100%; max-width: 450px;
-            margin: 80px auto 0 auto; /* MARGE HAUT POUR TELEGRAM */
-            background: var(--glass-bg);
-            border-radius: 30px 30px 0 0;
-            padding: 25px; min-height: 100vh;
-            border: 1px solid var(--text-gold); border-bottom: none;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            width: 100%; max-width: 450px; margin: 80px auto 0 auto;
+            background: var(--glass-bg); border-radius: 30px 30px 0 0;
+            padding: 25px; min-height: 100vh; border: 1px solid var(--text-gold); border-bottom: none;
         }
         
-        .media-box { 
-            width: 100%; aspect-ratio: 1 / 1; 
-            margin-bottom: 20px; border-radius: 20px; 
-            overflow: hidden; background: #000; border: 1px solid #333;
+        /* SLIDER HORIZONTAL */
+        .slider-container {
+            width: 100%; aspect-ratio: 1 / 1; margin-bottom: 20px;
+            border-radius: 20px; overflow: hidden; background: #000; border: 1px solid #333;
+            position: relative;
         }
-        .media-box video, .media-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .slider-wrapper {
+            display: flex; width: 200%; height: 100%;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Cache scrollbar Firefox */
+        }
+        .slider-wrapper::-webkit-scrollbar { display: none; } /* Cache scrollbar Chrome/Safari */
+
+        .slide {
+            width: 100%; height: 100%; flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+        .slide img, .slide video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Indicateur de swipe (petits points) */
+        .slider-dots {
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; pointer-events: none;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+        .dot.active { background: var(--text-gold); width: 20px; border-radius: 10px; }
 
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .price-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
         .p-gram { font-weight: bold; color: var(--text-gold); }
         .p-value { display: block; font-size: 1.2rem; font-weight: 900; }
 
-        /* --- AVIS --- */
         .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); }
         .stars { display: flex; gap: 8px; margin-bottom: 10px; justify-content: center; }
         .star { font-size: 24px; color: #333; cursor: pointer; }
         .star.active { color: var(--text-gold); }
         textarea { width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; padding: 12px; resize: none; font-family: inherit; }
-        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; }
         
         #comments-list { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
         .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; position: relative; font-size: 0.85rem; }
         .del-btn { position: absolute; top: 5px; right: 10px; color: #ff3e3e; font-weight: bold; cursor: pointer; }
 
-        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 15px; width: 100%; border-radius: 15px; margin: 20px 0 120px 0; font-weight: bold; cursor: pointer; }
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 15px; width: 100%; border-radius: 15px; margin: 20px 0 120px 0; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -116,10 +123,19 @@
 
     <div id="details-view">
         <div class="modal-content">
-            <div id="media-content" class="media-box"></div>
-            <h2 id="prod-title" style="color:var(--text-gold); margin: 0; text-transform: uppercase; text-align: center; font-size: 1.6rem;"></h2>
-            <p id="prod-desc" style="opacity: 0.7; text-align: center; margin-top: 5px; font-size: 0.9rem;"></p>
-            
+            <div class="slider-container">
+                <div class="slider-wrapper" id="slider-wrap" onscroll="updateDots()">
+                    <div class="slide" id="slide-img"></div>
+                    <div class="slide" id="slide-video"></div>
+                </div>
+                <div class="slider-dots">
+                    <div class="dot active" id="dot0"></div>
+                    <div class="dot" id="dot1"></div>
+                </div>
+            </div>
+
+            <h2 id="prod-title" style="color:var(--text-gold); margin: 0; text-transform: uppercase; text-align: center;"></h2>
+            <p id="prod-desc" style="opacity: 0.7; text-align: center; margin-top: 5px;"></p>
             <div id="prod-prices" class="price-grid"></div>
 
             <div class="review-box">
@@ -139,18 +155,12 @@
         tg.expand();
         let currentRating = 0, currentProduct = "", adminMode = false;
 
-        // Admin Mode (3s sur logo)
-        const adminTrigger = document.getElementById('admin-trigger');
-        let pressTimer;
-        adminTrigger.addEventListener('touchstart', () => {
-            pressTimer = setTimeout(() => {
-                adminMode = !adminMode;
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
-                loadComments();
-            }, 3000);
-        });
-        adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
+        function updateDots() {
+            const wrap = document.getElementById('slider-wrap');
+            const index = Math.round(wrap.scrollLeft / wrap.offsetWidth);
+            document.getElementById('dot0').classList.toggle('active', index === 0);
+            document.getElementById('dot1').classList.toggle('active', index === 1);
+        }
 
         function openProduct(title, media, desc, prices, videoUrl = null) {
             currentProduct = title;
@@ -159,26 +169,29 @@
             document.getElementById('prod-title').innerText = title;
             document.getElementById('prod-desc').innerText = desc;
             
-            let mediaHtml = videoUrl ? 
-                `<video id="vp" controls playsinline muted autoplay loop><source src="${videoUrl}" type="video/mp4"></video>` : 
-                `<img src="${media}">`;
+            // Image en 1er
+            document.getElementById('slide-img').innerHTML = `<img src="${media}">`;
             
-            document.getElementById('media-content').innerHTML = mediaHtml;
-            
+            // Vidéo en 2ème
+            if(videoUrl) {
+                document.getElementById('slide-video').innerHTML = `<video id="vp" controls playsinline muted autoplay loop><source src="${videoUrl}" type="video/mp4"></video>`;
+                document.querySelector('.slider-dots').style.display = 'flex';
+            } else {
+                document.getElementById('slide-video').innerHTML = '';
+                document.querySelector('.slider-dots').style.display = 'none';
+            }
+
             let priceHtml = "";
-            prices.forEach(p => {
-                priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`;
-            });
+            prices.forEach(p => { priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`; });
             document.getElementById('prod-prices').innerHTML = priceHtml;
             loadComments();
-            document.getElementById('details-view').scrollTo(0,0);
+            document.getElementById('slider-wrap').scrollLeft = 0;
         }
 
         function goBack() {
             document.getElementById('details-view').style.display = 'none';
             document.body.style.overflow = 'auto';
             const v = document.getElementById('vp'); if(v) v.pause();
-            setStar(0);
         }
 
         function setStar(n) { currentRating = n; document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); }
@@ -197,19 +210,9 @@
             let reviews = JSON.parse(localStorage.getItem('s_rev') || "[]");
             let html = "";
             reviews.filter(r => r.prod === currentProduct).forEach(r => {
-                const delBtn = adminMode ? `<span class="del-btn" onclick="deleteReview(${r.id})">✕</span>` : "";
-                html += `<div class="comment-item">${delBtn}<div style="color:var(--text-gold)">${"★".repeat(r.rating)}</div>${r.text}</div>`;
+                html += `<div class="comment-item"><div style="color:var(--text-gold)">${"★".repeat(r.rating)}</div>${r.text}</div>`;
             });
             document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; text-align:center;'>Aucun avis.</div>";
-        }
-
-        function deleteReview(id) {
-            if(confirm("Supprimer ?")) {
-                let reviews = JSON.parse(localStorage.getItem('s_rev') || "[]");
-                reviews = reviews.filter(r => r.id !== id);
-                localStorage.setItem('s_rev', JSON.stringify(reviews));
-                loadComments();
-            }
         }
     </script>
 </body>
