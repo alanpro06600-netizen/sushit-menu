@@ -15,15 +15,15 @@
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, sans-serif;
             background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
             background-size: cover; background-position: center; background-attachment: fixed;
-            margin: 0; padding: 0; color: white; overflow-x: hidden;
+            margin: 0; padding: 0; color: white;
         }
 
         /* --- MENU --- */
         #main-menu { padding: 20px; width: 100%; max-width: 450px; margin: 0 auto; }
-        .header { text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red); cursor: pointer; }
+        .header { text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red); }
         .logo { font-size: 1.8rem; font-weight: 900; margin: 0; }
 
         .category-item {
@@ -31,97 +31,72 @@
             display: flex; align-items: center; justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
         }
-        .cat-left { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 600; }
-        .cat-icon { font-size: 1.4rem; width: 30px; text-align: center; }
-        .arrow-right { opacity: 0.4; font-size: 1.2rem; }
 
         /* --- FICHE PRODUIT --- */
         #details-view { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7); z-index: 999;
-            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            background: rgba(0,0,0,0.8); z-index: 999; overflow-y: auto;
         }
 
         .modal-content {
-            width: 100%; max-width: 450px; margin: 80px auto 0 auto;
+            width: 100%; max-width: 450px; margin: 70px auto 0 auto;
             background: var(--glass-bg); border-radius: 30px 30px 0 0;
-            padding: 25px; min-height: 100vh; border: 1px solid var(--text-gold); border-bottom: none;
+            padding: 20px; min-height: 100vh; border: 1px solid var(--text-gold);
         }
         
-        .slider-container {
-            width: 100%; aspect-ratio: 1 / 1; margin-bottom: 20px;
-            border-radius: 20px; overflow: hidden; background: #000; border: 1px solid #333;
-            position: relative;
+        .main-media-box { 
+            width: 100%; aspect-ratio: 1 / 1; 
+            margin-bottom: 15px; border-radius: 20px; 
+            overflow: hidden; background: #000; border: 1px solid #333;
         }
+        .main-media-box img, .main-media-box video { width: 100%; height: 100%; object-fit: cover; }
 
-        .slider-wrapper {
-            display: flex; height: 100%;
-            overflow-x: auto; scroll-snap-type: x mandatory;
-            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        /* MINIATURES */
+        .thumb-container { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+        .thumb { 
+            width: 60px; height: 60px; border-radius: 10px; border: 2px solid transparent; 
+            overflow: hidden; cursor: pointer; background: #000;
         }
-        .slider-wrapper::-webkit-scrollbar { display: none; }
-
-        .slide {
-            width: 100%; height: 100%; flex-shrink: 0;
-            scroll-snap-align: start; display: flex; align-items: center; justify-content: center;
-        }
-        .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .slide video { width: 100%; height: 100%; object-fit: cover; background: #000; position: relative; z-index: 10; }
-
-        .slider-dots {
-            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-            display: none; gap: 8px; pointer-events: none; z-index: 20;
-        }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); }
-        .dot.active { background: var(--text-gold); width: 20px; border-radius: 10px; }
+        .thumb.active { border-color: var(--text-gold); }
+        .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; }
 
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .price-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
         .p-gram { font-weight: bold; color: var(--text-gold); }
         .p-value { display: block; font-size: 1.2rem; font-weight: 900; }
 
-        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 15px; width: 100%; border-radius: 15px; margin: 20px 0 120px 0; font-weight: bold; }
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 15px; width: 100%; border-radius: 15px; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="main-menu">
         <div class="header"><h1 class="logo">SUSH'IT</h1></div>
-        
         <div class="category-item" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']])">
-            <div class="cat-left"><span class="cat-icon">❄️</span><span>FROZEN</span></div><div class="arrow-right">❯</div>
+            <span>❄️ FROZEN</span><span>❯</span>
         </div>
-
         <div class="category-item" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']])">
-            <div class="cat-left"><span class="cat-icon">💥</span><span>FILTRÉ</span></div><div class="arrow-right">❯</div>
+            <span>💥 FILTRÉ</span><span>❯</span>
         </div>
-
         <div class="category-item" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','160€']])">
-            <div class="cat-left"><span class="cat-icon">⚡️</span><span>STATIC</span></div><div class="arrow-right">❯</div>
+            <span>⚡️ STATIC</span><span>❯</span>
         </div>
-
-        <div class="category-item" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']], 'https://www.dropbox.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16&st=x8bqu2m6&raw=1')">
-            <div class="cat-left"><span class="cat-icon">🧽</span><span>MOUSSEUX</span></div><div class="arrow-right">❯</div>
+        <div class="category-item" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/xvvP6oB.jpeg', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']], 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16')">
+            <span>🧽 MOUSSEUX</span><span>❯</span>
         </div>
     </div>
 
     <div id="details-view">
         <div class="modal-content">
-            <div class="slider-container">
-                <div class="slider-wrapper" id="slider-wrap" onscroll="updateDots()">
-                    <div class="slide" id="slide-img"></div>
-                    <div class="slide" id="slide-video"></div>
-                </div>
-                <div class="slider-dots" id="dots-container">
-                    <div class="dot active" id="dot0"></div>
-                    <div class="dot" id="dot1"></div>
-                </div>
-            </div>
+            <div id="main-display" class="main-media-box"></div>
+            
+            <div id="thumbs" class="thumb-container"></div>
 
-            <h2 id="prod-title" style="color:var(--text-gold); margin: 0; text-transform: uppercase; text-align: center;"></h2>
-            <p id="prod-desc" style="opacity: 0.7; text-align: center; margin-top: 5px;"></p>
+            <h2 id="prod-title" style="color:var(--text-gold); text-align:center; text-transform:uppercase;"></h2>
+            <p id="prod-desc" style="opacity:0.7; text-align:center;"></p>
+            
             <div id="prod-prices" class="price-grid"></div>
-            <button class="btn-back" onclick="goBack()">RETOUR AU CATALOGUE</button>
+            <button class="btn-back" onclick="goBack()">RETOUR</button>
         </div>
     </div>
 
@@ -129,46 +104,43 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        function updateDots() {
-            const wrap = document.getElementById('slider-wrap');
-            const index = Math.round(wrap.scrollLeft / wrap.offsetWidth);
-            document.getElementById('dot0').classList.toggle('active', index === 0);
-            document.getElementById('dot1').classList.toggle('active', index === 1);
+        function setMedia(type, url) {
+            const display = document.getElementById('main-display');
+            if(type === 'vid') {
+                display.innerHTML = `<video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover;"><source src="${url}" type="video/mp4"></video>`;
+            } else {
+                display.innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
+            }
+            // Update active thumb
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
         }
 
-        function openProduct(title, media, desc, prices, videoUrl = null) {
+        function openProduct(title, imgUrl, desc, prices, videoUrl = null) {
             document.getElementById('details-view').style.display = 'block';
-            document.body.style.overflow = 'hidden';
             document.getElementById('prod-title').innerText = title;
             document.getElementById('prod-desc').innerText = desc;
             
-            const wrap = document.getElementById('slider-wrap');
-            const dots = document.getElementById('dots-container');
+            const thumbsDiv = document.getElementById('thumbs');
+            thumbsDiv.innerHTML = '';
             
-            document.getElementById('slide-img').innerHTML = `<img src="${media}">`;
-            
+            // Toujours afficher l'image Imgur en premier
+            setMedia('img', imgUrl);
+
             if(videoUrl) {
-                // Utilisation de l'URL directe pour éviter les redirections Dropbox
-                const finalUrl = videoUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
-                document.getElementById('slide-video').innerHTML = `<video id="vp" autoplay loop muted playsinline webkit-playsinline controls><source src="${finalUrl}" type="video/mp4"></video>`;
-                wrap.style.width = "200%";
-                dots.style.display = 'flex';
-            } else {
-                document.getElementById('slide-video').innerHTML = '';
-                wrap.style.width = "100%";
-                dots.style.display = 'none';
+                // Miniature 1 : Image
+                thumbsDiv.innerHTML += `<div class="thumb active" onclick="setMedia('img', '${imgUrl}'); this.classList.add('active')"><img src="${imgUrl}"></div>`;
+                // Miniature 2 : Vidéo
+                thumbsDiv.innerHTML += `<div class="thumb" onclick="setMedia('vid', '${videoUrl}'); this.classList.add('active')"><video src="${videoUrl}" muted></video></div>`;
             }
 
             let priceHtml = "";
             prices.forEach(p => { priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`; });
             document.getElementById('prod-prices').innerHTML = priceHtml;
-            wrap.scrollLeft = 0;
         }
 
         function goBack() {
             document.getElementById('details-view').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            const v = document.getElementById('vp'); if(v) v.pause();
+            document.getElementById('main-display').innerHTML = '';
         }
     </script>
 </body>
