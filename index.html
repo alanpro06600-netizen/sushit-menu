@@ -16,9 +16,15 @@
 
         body {
             font-family: -apple-system, sans-serif;
-            background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
+            background: #000;
             margin: 0; padding: 0; color: white;
+            overflow-x: hidden;
+        }
+
+        .bg-fixed {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://i.imgur.com/xvvP6oB.jpeg') center/cover;
+            z-index: -1;
         }
 
         /* --- MENU PRINCIPAL --- */
@@ -27,23 +33,22 @@
         .header { 
             text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.8); 
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red); 
-            cursor: pointer; 
-            user-select: none; -webkit-user-select: none; 
+            cursor: pointer; user-select: none; -webkit-user-select: none; 
         }
         .logo { font-size: 1.8rem; font-weight: 900; margin: 0; pointer-events: none; }
 
         .category-item {
-            background: var(--glass-bg); border-radius: 15px; margin-bottom: 10px; padding: 18px 20px;
+            background: var(--glass-bg); border-radius: 15px; margin-bottom: 10px; padding: 12px 15px;
             display: flex; align-items: center; justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
         }
-        .cat-left { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 600; }
-        .cat-icon { font-size: 1.4rem; width: 30px; text-align: center; }
+        .cat-info { display: flex; align-items: center; gap: 12px; }
+        .cat-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(241, 210, 121, 0.3); }
 
-        /* --- FICHE PRODUIT --- */
-        #details-view { 
+        /* --- PANNEAUX (FICHE & ADMIN) --- */
+        .panel { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8); z-index: 999; overflow-y: auto;
+            background: rgba(0,0,0,0.9); z-index: 999; overflow-y: auto;
         }
 
         .modal-content {
@@ -72,146 +77,211 @@
         .p-gram { font-weight: bold; color: var(--text-gold); }
         .p-value { display: block; font-size: 1.2rem; font-weight: 900; }
 
-        .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); }
-        .stars { display: flex; gap: 8px; margin-bottom: 10px; justify-content: center; }
-        .star { font-size: 24px; color: #333; cursor: pointer; }
-        .star.active { color: var(--text-gold); }
-        textarea { width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; padding: 12px; resize: none; }
-        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; }
-        #comments-list { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
-        .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; position: relative; font-size: 0.85rem; }
-        .del-btn { position: absolute; top: 5px; right: 10px; color: #ff3e3e; font-weight: bold; cursor: pointer; }
-
-        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 15px; width: 100%; border-radius: 15px; margin: 20px 0 100px 0; font-weight: bold; }
+        /* --- FORMULAIRE ADMIN --- */
+        .admin-only { display: none; margin-bottom: 20px; }
+        .admin-section { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #444; }
+        input, textarea { 
+            width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; 
+            color: white; padding: 12px; margin-bottom: 10px; font-family: inherit; 
+        }
+        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .btn-add { background: var(--text-gold); color: #000; }
+        .btn-save { background: #2ecc71; color: white; }
+        .btn-red { background: var(--accent-red); color: white; }
     </style>
 </head>
 <body>
+    <div class="bg-fixed"></div>
 
     <div id="main-menu">
         <div class="header" id="admin-trigger"><h1 class="logo">SUSH'IT</h1></div>
         
-        <div class="category-item" onclick="openProduct('FROZEN', 'https://i.imgur.com/xvvP6oB.jpeg', 'Texture givrée premium.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']])">
-            <div class="cat-left"><span class="cat-icon">❄️</span><span>FROZEN</span></div><span>❯</span>
+        <div id="admin-controls" class="admin-only">
+            <button class="btn btn-add" onclick="showPanel('admin-panel')">➕ CRÉER UNE FICHE PRODUIT</button>
         </div>
 
-        <div class="category-item" onclick="openProduct('FILTRÉ', 'https://i.imgur.com/xvvP6oB.jpeg', 'Filtrage traditionnel.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']])">
-            <div class="cat-left"><span class="cat-icon">💥</span><span>FILTRÉ</span></div><span>❯</span>
-        </div>
-
-        <div class="category-item" onclick="openProduct('STATIC', 'https://i.imgur.com/xvvP6oB.jpeg', 'Puissance et pureté.', [['2g','20€'],['6g','50€'],['10g','70€'],['25g','160€']])">
-            <div class="cat-left"><span class="cat-icon">⚡️</span><span>STATIC</span></div><span>❯</span>
-        </div>
-
-        <div class="category-item" onclick="openProduct('MOUSSEUX', 'https://i.imgur.com/LitPBka.png', 'Douceur et légèreté.', [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']], 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16')">
-            <div class="cat-left"><span class="cat-icon">🧽</span><span>MOUSSEUX</span></div><span>❯</span>
-        </div>
+        <div id="product-list"></div>
     </div>
 
-    <div id="details-view">
+    <div id="details-view" class="panel">
         <div class="modal-content">
             <div id="main-display" class="main-media-box"></div>
             <div id="thumbs" class="thumb-container"></div>
             <h2 id="prod-title" style="color:var(--text-gold); text-align:center; text-transform:uppercase; margin:0;"></h2>
             <p id="prod-desc" style="opacity:0.7; text-align:center; margin:10px 0;"></p>
             <div id="prod-prices" class="price-grid"></div>
-            <div class="review-box">
-                <div class="stars" id="star-rating">
-                    <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
-                </div>
-                <textarea id="review-text" rows="2" placeholder="Laisse un avis..."></textarea>
-                <button class="btn-post" onclick="postReview()">POSTER</button>
-                <div id="comments-list"></div>
+            <button class="btn btn-red" onclick="closeDetails()">RETOUR</button>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="panel">
+        <div class="modal-content">
+            <h2 style="text-align:center; color:var(--text-gold);">NOUVELLE FICHE</h2>
+            
+            <div class="admin-section">
+                <label>Nom du produit :</label>
+                <input type="text" id="new-name" placeholder="ex: MOUSSEUX">
+                
+                <label>Photo de présentation (Menu) :</label>
+                <input type="text" id="new-thumb" placeholder="URL Image Imgur">
+                
+                <label>Photo Fiche Produit :</label>
+                <input type="text" id="new-img" placeholder="URL Image Imgur">
+                
+                <label>Vidéo Fiche (Optionnel) :</label>
+                <input type="text" id="new-vid" placeholder="URL Dropbox (Directe)">
+                
+                <label>Description :</label>
+                <textarea id="new-desc" rows="2" placeholder="Petite phrase..."></textarea>
             </div>
-            <button class="btn-back" onclick="goBack()">RETOUR AU CATALOGUE</button>
+
+            <div class="admin-section" id="price-inputs">
+                <label>Prix & Grammages :</label>
+                <div style="display:flex; gap:5px; margin-bottom:5px;">
+                    <input type="text" placeholder="2g" class="g-input">
+                    <input type="text" placeholder="20€" class="p-input">
+                </div>
+            </div>
+            <button class="btn" style="background:#444; color:white; padding:8px;" onclick="addPriceField()">+ Ajouter une ligne de prix</button>
+            
+            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+            
+            <button class="btn btn-save" onclick="saveProduct()">ENREGISTRER LA FICHE</button>
+            <button class="btn btn-red" onclick="showPanel('main-menu')">ANNULER</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        let currentRating = 0, currentProduct = "", adminMode = false;
 
-        const adminTrigger = document.getElementById('admin-trigger');
+        // Produits par défaut
+        let defaultProducts = [
+            { id: 1, name: 'MOUSSEUX', thumb: 'https://i.imgur.com/LitPBka.png', img: 'https://i.imgur.com/LitPBka.png', vid: 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16', desc: 'Douceur et légèreté.', prices: [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']] },
+            { id: 2, name: 'FROZEN', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: null, desc: 'Texture givrée premium.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] }
+        ];
+
+        let products = JSON.parse(localStorage.getItem('s_prods')) || defaultProducts;
+        let adminMode = false;
         let pressTimer;
-        
-        adminTrigger.addEventListener('touchstart', (e) => {
+
+        // --- GESTION ADMIN (Appui long 3s) ---
+        document.getElementById('admin-trigger').addEventListener('touchstart', (e) => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
+                document.getElementById('admin-controls').style.display = adminMode ? 'block' : 'none';
+                renderProducts();
                 alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
-                loadComments();
             }, 3000);
         });
+        document.getElementById('admin-trigger').addEventListener('touchend', () => clearTimeout(pressTimer));
 
-        adminTrigger.addEventListener('touchend', () => clearTimeout(pressTimer));
-        adminTrigger.addEventListener('touchcancel', () => clearTimeout(pressTimer));
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = '';
+            products.forEach((p, index) => {
+                list.innerHTML += `
+                    <div class="category-item" onclick="openProduct(${index})">
+                        <div class="cat-info">
+                            <img src="${p.thumb}" class="cat-img">
+                            <span style="font-weight:bold; font-size:1.1rem;">${p.name}</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            ${adminMode ? `<span style="color:red; font-weight:bold; padding:10px;" onclick="event.stopPropagation(); deleteProduct(${index})">🗑️</span>` : ''}
+                            <span style="opacity:0.4;">❯</span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function openProduct(index) {
+            const p = products[index];
+            document.getElementById('details-view').style.display = 'block';
+            document.getElementById('prod-title').innerText = p.name;
+            document.getElementById('prod-desc').innerText = p.desc;
+            
+            const display = document.getElementById('main-display');
+            const thumbs = document.getElementById('thumbs');
+            const prices = document.getElementById('prod-prices');
+            
+            setMedia('img', p.img);
+            thumbs.innerHTML = '';
+            prices.innerHTML = '';
+
+            // Si vidéo, on crée les deux miniatures
+            if(p.vid) {
+                thumbs.innerHTML = `
+                    <div class="thumb active" onclick="setMedia('img', '${p.img}', this)"><img src="${p.img}"></div>
+                    <div class="thumb" onclick="setMedia('vid', '${p.vid}', this)"><video src="${p.vid}" muted></video></div>
+                `;
+            }
+
+            p.prices.forEach(pr => {
+                prices.innerHTML += `<div class="price-item"><span class="p-gram">${pr[0]}</span><span class="p-value">${pr[1]}</span></div>`;
+            });
+        }
 
         function setMedia(type, url, element) {
             const display = document.getElementById('main-display');
             if(type === 'vid') {
-                display.innerHTML = `<video autoplay loop muted playsinline controls><source src="${url}" type="video/mp4"></video>`;
+                display.innerHTML = `<video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover;"><source src="${url}" type="video/mp4"></video>`;
             } else {
-                display.innerHTML = `<img src="${url}">`;
+                display.innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
             }
-            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-            if(element) element.classList.add('active');
+            if(element) {
+                document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                element.classList.add('active');
+            }
         }
 
-        function openProduct(title, imgUrl, desc, prices, videoUrl = null) {
-            currentProduct = title;
-            document.getElementById('details-view').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            document.getElementById('prod-title').innerText = title;
-            document.getElementById('prod-desc').innerText = desc;
-            const thumbsDiv = document.getElementById('thumbs');
-            thumbsDiv.innerHTML = '';
-            setMedia('img', imgUrl);
-            if(videoUrl) {
-                thumbsDiv.innerHTML += `<div class="thumb active" onclick="setMedia('img', '${imgUrl}', this)"><img src="${imgUrl}"></div>`;
-                thumbsDiv.innerHTML += `<div class="thumb" onclick="setMedia('vid', '${videoUrl}', this)"><video src="${videoUrl}" muted></video></div>`;
-            }
-            let priceHtml = "";
-            prices.forEach(p => { priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`; });
-            document.getElementById('prod-prices').innerHTML = priceHtml;
-            loadComments();
+        function addPriceField() {
+            const div = document.createElement('div');
+            div.style.display = 'flex'; div.style.gap = '5px'; div.style.marginBottom = '5px';
+            div.innerHTML = `<input type="text" placeholder="ex: 10g" class="g-input"><input type="text" placeholder="ex: 70€" class="p-input">`;
+            document.getElementById('price-inputs').appendChild(div);
         }
 
-        function goBack() {
+        function saveProduct() {
+            const name = document.getElementById('new-name').value;
+            const thumb = document.getElementById('new-thumb').value;
+            const img = document.getElementById('new-img').value;
+            const vid = document.getElementById('new-vid').value;
+            const desc = document.getElementById('new-desc').value;
+            
+            const gIn = document.querySelectorAll('.g-input');
+            const pIn = document.querySelectorAll('.p-input');
+            let priceList = [];
+            gIn.forEach((g, i) => { if(g.value) priceList.push([g.value, pIn[i].value]); });
+
+            if(!name || !thumb || !img) return alert("Nom et photos obligatoires !");
+
+            products.push({ id: Date.now(), name, thumb, img, vid, desc, prices: priceList });
+            localStorage.setItem('s_prods', JSON.stringify(products));
+            
+            document.querySelectorAll('#admin-panel input, #admin-panel textarea').forEach(i => i.value = '');
+            showPanel('main-menu');
+            renderProducts();
+        }
+
+        function deleteProduct(index) {
+            if(confirm("Supprimer cette fiche ?")) {
+                products.splice(index, 1);
+                localStorage.setItem('s_prods', JSON.stringify(products));
+                renderProducts();
+            }
+        }
+
+        function showPanel(id) {
+            document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+            if(id !== 'main-menu') document.getElementById(id).style.display = 'block';
+        }
+
+        function closeDetails() {
             document.getElementById('details-view').style.display = 'none';
-            document.body.style.overflow = 'auto';
             document.getElementById('main-display').innerHTML = '';
-            setStar(0);
         }
 
-        function setStar(n) { currentRating = n; document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); }
-
-        function postReview() {
-            const text = document.getElementById('review-text').value;
-            if(!currentRating || !text.trim()) return;
-            const review = { id: Date.now(), prod: currentProduct, rating: currentRating, text: text };
-            let reviews = JSON.parse(localStorage.getItem('s_rev') || "[]");
-            reviews.unshift(review);
-            localStorage.setItem('s_rev', JSON.stringify(reviews));
-            document.getElementById('review-text').value = ''; setStar(0); loadComments();
-        }
-
-        function loadComments() {
-            let reviews = JSON.parse(localStorage.getItem('s_rev') || "[]");
-            let html = "";
-            reviews.filter(r => r.prod === currentProduct).forEach(r => {
-                const delBtn = adminMode ? `<span class="del-btn" onclick="deleteReview(${r.id})">✕</span>` : "";
-                html += `<div class="comment-item">${delBtn}<div style="color:var(--text-gold)">${"★".repeat(r.rating)}</div>${r.text}</div>`;
-            });
-            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; text-align:center;'>Aucun avis.</div>";
-        }
-
-        function deleteReview(id) {
-            if(confirm("Supprimer ?")) {
-                let reviews = JSON.parse(localStorage.getItem('s_rev') || "[]");
-                reviews = reviews.filter(r => r.id !== id);
-                localStorage.setItem('s_rev', JSON.stringify(reviews));
-                loadComments();
-            }
-        }
+        renderProducts();
     </script>
 </body>
 </html>
