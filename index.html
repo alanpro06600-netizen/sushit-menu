@@ -16,15 +16,10 @@
 
         body {
             font-family: -apple-system, sans-serif;
-            background: #000;
+            background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
+            background-size: cover; background-position: center; background-attachment: fixed;
             margin: 0; padding: 0; color: white;
             overflow-x: hidden;
-        }
-
-        .bg-fixed {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://i.imgur.com/xvvP6oB.jpeg') center/cover;
-            z-index: -1;
         }
 
         /* --- MENU PRINCIPAL --- */
@@ -38,14 +33,14 @@
         .logo { font-size: 1.8rem; font-weight: 900; margin: 0; pointer-events: none; }
 
         .category-item {
-            background: var(--glass-bg); border-radius: 15px; margin-bottom: 10px; padding: 12px 15px;
+            background: var(--glass-bg); border-radius: 15px; margin-bottom: 10px; padding: 18px 20px;
             display: flex; align-items: center; justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
         }
-        .cat-info { display: flex; align-items: center; gap: 12px; }
-        .cat-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(241, 210, 121, 0.3); }
+        .cat-left { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 600; }
+        .cat-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; border: 1px solid var(--text-gold); }
 
-        /* --- PANNEAUX (FICHE & ADMIN) --- */
+        /* --- VUES (DÉTAILS & ADMIN) --- */
         .panel { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.9); z-index: 999; overflow-y: auto;
@@ -77,27 +72,28 @@
         .p-gram { font-weight: bold; color: var(--text-gold); }
         .p-value { display: block; font-size: 1.2rem; font-weight: 900; }
 
-        /* --- FORMULAIRE ADMIN --- */
+        /* --- ADMIN STYLE --- */
         .admin-only { display: none; margin-bottom: 20px; }
         .admin-section { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #444; }
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-gold); }
         input, textarea { 
             width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; 
             color: white; padding: 12px; margin-bottom: 10px; font-family: inherit; 
         }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .btn-action { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
         .btn-add { background: var(--text-gold); color: #000; }
         .btn-save { background: #2ecc71; color: white; }
         .btn-red { background: var(--accent-red); color: white; }
+        .btn-back { background: transparent; color: white; border: 1px solid white; }
     </style>
 </head>
 <body>
-    <div class="bg-fixed"></div>
 
     <div id="main-menu">
         <div class="header" id="admin-trigger"><h1 class="logo">SUSH'IT</h1></div>
         
         <div id="admin-controls" class="admin-only">
-            <button class="btn btn-add" onclick="showPanel('admin-panel')">➕ CRÉER UNE FICHE PRODUIT</button>
+            <button class="btn-action btn-add" onclick="showPanel('admin-panel')">➕ CRÉER UNE FICHE PRODUIT</button>
         </div>
 
         <div id="product-list"></div>
@@ -110,7 +106,7 @@
             <h2 id="prod-title" style="color:var(--text-gold); text-align:center; text-transform:uppercase; margin:0;"></h2>
             <p id="prod-desc" style="opacity:0.7; text-align:center; margin:10px 0;"></p>
             <div id="prod-prices" class="price-grid"></div>
-            <button class="btn btn-red" onclick="closeDetails()">RETOUR</button>
+            <button class="btn-action btn-back" onclick="closeView('details-view')">RETOUR AU CATALOGUE</button>
         </div>
     </div>
 
@@ -122,32 +118,30 @@
                 <label>Nom du produit :</label>
                 <input type="text" id="new-name" placeholder="ex: MOUSSEUX">
                 
-                <label>Photo de présentation (Menu) :</label>
+                <label>Photo Présentation (Menu) :</label>
                 <input type="text" id="new-thumb" placeholder="URL Image Imgur">
                 
-                <label>Photo Fiche Produit :</label>
+                <label>Photo Principale (Fiche) :</label>
                 <input type="text" id="new-img" placeholder="URL Image Imgur">
                 
-                <label>Vidéo Fiche (Optionnel) :</label>
-                <input type="text" id="new-vid" placeholder="URL Dropbox (Directe)">
+                <label>Vidéo (Optionnel) :</label>
+                <input type="text" id="new-vid" placeholder="URL Dropbox directe">
                 
                 <label>Description :</label>
-                <textarea id="new-desc" rows="2" placeholder="Petite phrase..."></textarea>
+                <textarea id="new-desc" rows="2" placeholder="Description du produit..."></textarea>
             </div>
 
             <div class="admin-section" id="price-inputs">
                 <label>Prix & Grammages :</label>
                 <div style="display:flex; gap:5px; margin-bottom:5px;">
-                    <input type="text" placeholder="2g" class="g-input">
-                    <input type="text" placeholder="20€" class="p-input">
+                    <input type="text" placeholder="2g" class="g-in">
+                    <input type="text" placeholder="20€" class="p-in">
                 </div>
             </div>
-            <button class="btn" style="background:#444; color:white; padding:8px;" onclick="addPriceField()">+ Ajouter une ligne de prix</button>
+            <button onclick="addPriceLine()" style="background:none; color:white; border:1px dashed #666; width:100%; padding:10px; margin-bottom:20px; border-radius:10px;">+ Ajouter une ligne de prix</button>
             
-            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
-            
-            <button class="btn btn-save" onclick="saveProduct()">ENREGISTRER LA FICHE</button>
-            <button class="btn btn-red" onclick="showPanel('main-menu')">ANNULER</button>
+            <button class="btn-action btn-save" onclick="saveProduct()">ENREGISTRER LA FICHE</button>
+            <button class="btn-action btn-back" onclick="showPanel('main-menu')">ANNULER</button>
         </div>
     </div>
 
@@ -155,23 +149,25 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Produits par défaut
+        // PRODUITS PAR DÉFAUT
         let defaultProducts = [
-            { id: 1, name: 'MOUSSEUX', thumb: 'https://i.imgur.com/LitPBka.png', img: 'https://i.imgur.com/LitPBka.png', vid: 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16', desc: 'Douceur et légèreté.', prices: [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']] },
-            { id: 2, name: 'FROZEN', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: null, desc: 'Texture givrée premium.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] }
+            { name: 'FROZEN', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Texture givrée premium.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] },
+            { name: 'FILTRÉ', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Filtrage traditionnel.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] },
+            { name: 'STATIC', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Puissance et pureté.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','160€']] },
+            { name: 'MOUSSEUX', thumb: 'https://i.imgur.com/LitPBka.png', img: 'https://i.imgur.com/LitPBka.png', vid: 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16', desc: 'Douceur et légèreté.', prices: [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','100€']] }
         ];
 
         let products = JSON.parse(localStorage.getItem('s_prods')) || defaultProducts;
         let adminMode = false;
         let pressTimer;
 
-        // --- GESTION ADMIN (Appui long 3s) ---
+        // ACTIVATION ADMIN (3 SECONDES SUR LE TITRE)
         document.getElementById('admin-trigger').addEventListener('touchstart', (e) => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
                 document.getElementById('admin-controls').style.display = adminMode ? 'block' : 'none';
                 renderProducts();
-                alert(adminMode ? "ADMIN ACTIVÉ 🔓" : "ADMIN DÉSACTIVÉ 🔒");
+                alert(adminMode ? "MODE ADMIN ACTIVÉ 🔓" : "MODE ADMIN DÉSACTIVÉ 🔒");
             }, 3000);
         });
         document.getElementById('admin-trigger').addEventListener('touchend', () => clearTimeout(pressTimer));
@@ -179,36 +175,35 @@
         function renderProducts() {
             const list = document.getElementById('product-list');
             list.innerHTML = '';
-            products.forEach((p, index) => {
+            products.forEach((p, i) => {
                 list.innerHTML += `
-                    <div class="category-item" onclick="openProduct(${index})">
-                        <div class="cat-info">
+                    <div class="category-item" onclick="openProduct(${i})">
+                        <div class="cat-left">
                             <img src="${p.thumb}" class="cat-img">
-                            <span style="font-weight:bold; font-size:1.1rem;">${p.name}</span>
+                            <span>${p.name}</span>
                         </div>
-                        <div style="display:flex; align-items:center; gap:15px;">
-                            ${adminMode ? `<span style="color:red; font-weight:bold; padding:10px;" onclick="event.stopPropagation(); deleteProduct(${index})">🗑️</span>` : ''}
-                            <span style="opacity:0.4;">❯</span>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            ${adminMode ? `<span style="color:red; font-weight:bold; padding:10px;" onclick="event.stopPropagation(); deleteProduct(${i})">🗑️</span>` : ''}
+                            <span style="opacity:0.5;">❯</span>
                         </div>
                     </div>`;
             });
         }
 
-        function openProduct(index) {
-            const p = products[index];
+        function openProduct(i) {
+            const p = products[i];
             document.getElementById('details-view').style.display = 'block';
             document.getElementById('prod-title').innerText = p.name;
             document.getElementById('prod-desc').innerText = p.desc;
             
             const display = document.getElementById('main-display');
             const thumbs = document.getElementById('thumbs');
-            const prices = document.getElementById('prod-prices');
+            const pricesDiv = document.getElementById('prod-prices');
             
             setMedia('img', p.img);
             thumbs.innerHTML = '';
-            prices.innerHTML = '';
+            pricesDiv.innerHTML = '';
 
-            // Si vidéo, on crée les deux miniatures
             if(p.vid) {
                 thumbs.innerHTML = `
                     <div class="thumb active" onclick="setMedia('img', '${p.img}', this)"><img src="${p.img}"></div>
@@ -217,27 +212,23 @@
             }
 
             p.prices.forEach(pr => {
-                prices.innerHTML += `<div class="price-item"><span class="p-gram">${pr[0]}</span><span class="p-value">${pr[1]}</span></div>`;
+                pricesDiv.innerHTML += `<div class="price-item"><span class="p-gram">${pr[0]}</span><span class="p-value">${pr[1]}</span></div>`;
             });
         }
 
-        function setMedia(type, url, element) {
+        function setMedia(type, url, el) {
             const display = document.getElementById('main-display');
-            if(type === 'vid') {
-                display.innerHTML = `<video autoplay loop muted playsinline controls style="width:100%; height:100%; object-fit:cover;"><source src="${url}" type="video/mp4"></video>`;
-            } else {
-                display.innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
-            }
-            if(element) {
+            display.innerHTML = type === 'vid' ? `<video autoplay loop muted playsinline controls><source src="${url}" type="video/mp4"></video>` : `<img src="${url}">`;
+            if(el) {
                 document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-                element.classList.add('active');
+                el.classList.add('active');
             }
         }
 
-        function addPriceField() {
+        function addPriceLine() {
             const div = document.createElement('div');
             div.style.display = 'flex'; div.style.gap = '5px'; div.style.marginBottom = '5px';
-            div.innerHTML = `<input type="text" placeholder="ex: 10g" class="g-input"><input type="text" placeholder="ex: 70€" class="p-input">`;
+            div.innerHTML = `<input type="text" placeholder="ex: 10g" class="g-in"><input type="text" placeholder="ex: 70€" class="p-in">`;
             document.getElementById('price-inputs').appendChild(div);
         }
 
@@ -248,24 +239,24 @@
             const vid = document.getElementById('new-vid').value;
             const desc = document.getElementById('new-desc').value;
             
-            const gIn = document.querySelectorAll('.g-input');
-            const pIn = document.querySelectorAll('.p-input');
+            const gIn = document.querySelectorAll('.g-in'), pIn = document.querySelectorAll('.p-in');
             let priceList = [];
             gIn.forEach((g, i) => { if(g.value) priceList.push([g.value, pIn[i].value]); });
 
-            if(!name || !thumb || !img) return alert("Nom et photos obligatoires !");
+            if(!name || !thumb || !img) return alert("Nom et photos requis !");
 
-            products.push({ id: Date.now(), name, thumb, img, vid, desc, prices: priceList });
+            products.push({ name, thumb, img, vid, desc, prices: priceList });
             localStorage.setItem('s_prods', JSON.stringify(products));
             
-            document.querySelectorAll('#admin-panel input, #admin-panel textarea').forEach(i => i.value = '');
+            // Reset
+            document.querySelectorAll('input, textarea').forEach(el => el.value = '');
             showPanel('main-menu');
             renderProducts();
         }
 
-        function deleteProduct(index) {
-            if(confirm("Supprimer cette fiche ?")) {
-                products.splice(index, 1);
+        function deleteProduct(i) {
+            if(confirm("Supprimer ce produit ?")) {
+                products.splice(i, 1);
                 localStorage.setItem('s_prods', JSON.stringify(products));
                 renderProducts();
             }
@@ -276,9 +267,9 @@
             if(id !== 'main-menu') document.getElementById(id).style.display = 'block';
         }
 
-        function closeDetails() {
-            document.getElementById('details-view').style.display = 'none';
-            document.getElementById('main-display').innerHTML = '';
+        function closeView(id) {
+            document.getElementById(id).style.display = 'none';
+            if(id === 'details-view') document.getElementById('main-display').innerHTML = '';
         }
 
         renderProducts();
