@@ -56,11 +56,11 @@
         }
 
         .slider-wrapper {
-            display: flex; width: 200%; height: 100%;
+            display: flex; width: 100%; height: 100%;
             overflow-x: auto; scroll-snap-type: x mandatory;
-            scrollbar-width: none; /* Cache scrollbar Firefox */
+            scrollbar-width: none;
         }
-        .slider-wrapper::-webkit-scrollbar { display: none; } /* Cache scrollbar Chrome/Safari */
+        .slider-wrapper::-webkit-scrollbar { display: none; }
 
         .slide {
             width: 100%; height: 100%; flex-shrink: 0;
@@ -68,10 +68,9 @@
         }
         .slide img, .slide video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Indicateur de swipe (petits points) */
         .slider-dots {
             position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 8px; pointer-events: none;
+            display: none; gap: 8px; pointer-events: none;
         }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
         .dot.active { background: var(--text-gold); width: 20px; border-radius: 10px; }
@@ -128,7 +127,7 @@
                     <div class="slide" id="slide-img"></div>
                     <div class="slide" id="slide-video"></div>
                 </div>
-                <div class="slider-dots">
+                <div class="slider-dots" id="dots-container">
                     <div class="dot active" id="dot0"></div>
                     <div class="dot" id="dot1"></div>
                 </div>
@@ -158,8 +157,8 @@
         function updateDots() {
             const wrap = document.getElementById('slider-wrap');
             const index = Math.round(wrap.scrollLeft / wrap.offsetWidth);
-            document.getElementById('dot0').classList.toggle('active', index === 0);
-            document.getElementById('dot1').classList.toggle('active', index === 1);
+            if(document.getElementById('dot0')) document.getElementById('dot0').classList.toggle('active', index === 0);
+            if(document.getElementById('dot1')) document.getElementById('dot1').classList.toggle('active', index === 1);
         }
 
         function openProduct(title, media, desc, prices, videoUrl = null) {
@@ -169,23 +168,29 @@
             document.getElementById('prod-title').innerText = title;
             document.getElementById('prod-desc').innerText = desc;
             
-            // Image en 1er
+            const wrap = document.getElementById('slider-wrap');
+            const dots = document.getElementById('dots-container');
+            
+            // Image par défaut
             document.getElementById('slide-img').innerHTML = `<img src="${media}">`;
             
-            // Vidéo en 2ème
             if(videoUrl) {
+                // Si vidéo (Mousseux), on active le slider
                 document.getElementById('slide-video').innerHTML = `<video id="vp" controls playsinline muted autoplay loop><source src="${videoUrl}" type="video/mp4"></video>`;
-                document.querySelector('.slider-dots').style.display = 'flex';
+                wrap.style.width = "200%";
+                dots.style.display = 'flex';
             } else {
+                // Sinon, image seule
                 document.getElementById('slide-video').innerHTML = '';
-                document.querySelector('.slider-dots').style.display = 'none';
+                wrap.style.width = "100%";
+                dots.style.display = 'none';
             }
 
             let priceHtml = "";
             prices.forEach(p => { priceHtml += `<div class="price-item"><span class="p-gram">${p[0]}</span><span class="p-value">${p[1]}</span></div>`; });
             document.getElementById('prod-prices').innerHTML = priceHtml;
             loadComments();
-            document.getElementById('slider-wrap').scrollLeft = 0;
+            wrap.scrollLeft = 0;
         }
 
         function goBack() {
