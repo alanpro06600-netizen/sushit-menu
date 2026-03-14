@@ -16,7 +16,7 @@
 
         body {
             font-family: -apple-system, sans-serif;
-            background-image: url('[attachment_0](attachment)'); 
+            background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
             background-size: cover; background-position: center; background-attachment: fixed;
             margin: 0; padding: 0; color: white;
         }
@@ -27,26 +27,34 @@
         .header { 
             text-align: center; margin: 20px 0 30px; background: rgba(0,0,0,0.8); 
             padding: 15px; border-radius: 50px; border: 2px solid var(--accent-red); 
-            cursor: pointer; user-select: none; -webkit-user-select: none; 
+            cursor: pointer; user-select: none;
         }
         .logo { font-size: 1.8rem; font-weight: 900; margin: 0; pointer-events: none; }
 
         .category-item {
             background: var(--glass-bg); border-radius: 15px; margin-bottom: 10px; padding: 18px 20px;
             display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.08); cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08); cursor: pointer; position: relative;
         }
         .cat-left { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 600; }
-        .cat-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; border: 1px solid var(--text-gold); }
+        .cat-img-wrapper { position: relative; width: 45px; height: 45px; }
+        .cat-img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; border: 1px solid var(--text-gold); }
+        
+        /* Badge Drapeau */
+        .flag-badge {
+            position: absolute; bottom: -5px; right: -5px; font-size: 14px;
+            background: rgba(0,0,0,0.6); border-radius: 50%; width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);
+        }
 
-        /* --- VUES (DÉTAILS & ADMIN) --- */
+        /* --- VUES --- */
         .panel { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.9); z-index: 999; overflow-y: auto;
+            background: rgba(0,0,0,0.95); z-index: 999; overflow-y: auto;
         }
 
         .modal-content {
-            width: 100%; max-width: 450px; margin: 70px auto 0 auto;
+            width: 100%; max-width: 450px; margin: 50px auto 0;
             background: var(--glass-bg); border-radius: 30px 30px 0 0;
             padding: 20px; min-height: 100vh; border: 1px solid var(--text-gold);
         }
@@ -54,41 +62,27 @@
         .main-media-box { 
             width: 100%; aspect-ratio: 1 / 1; 
             margin-bottom: 15px; border-radius: 20px; 
-            overflow: hidden; background: #000; border: 1px solid #333;
+            overflow: hidden; background: #000; border: 1px solid #333; position: relative;
         }
         .main-media-box img, .main-media-box video { width: 100%; height: 100%; object-fit: cover; }
+        .big-flag { position: absolute; top: 15px; right: 15px; font-size: 24px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 8px; }
 
         .thumb-container { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-        .thumb { 
-            width: 65px; height: 65px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); 
-            overflow: hidden; cursor: pointer; background: #000;
-        }
+        .thumb { width: 65px; height: 65px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; cursor: pointer; }
         .thumb.active { border-color: var(--text-gold); }
-        .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; }
 
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .price-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,62,62,0.3); }
-        .p-gram { font-weight: bold; color: var(--text-gold); }
-        .p-value { display: block; font-size: 1.2rem; font-weight: 900; }
 
-        /* --- SECTION AVIS --- */
-        .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        /* AVIS */
+        .review-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-top: 20px; }
         .stars { display: flex; gap: 8px; margin-bottom: 10px; justify-content: center; }
         .star { font-size: 24px; color: #333; cursor: pointer; }
         .star.active { color: var(--text-gold); }
-        textarea.review-input { width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; padding: 12px; resize: none; font-family: inherit; }
-        .btn-post { background: var(--accent-red); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; margin-top: 10px; }
-        #comments-list { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
-        .comment-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; position: relative; font-size: 0.85rem; }
-        .del-btn { position: absolute; top: 5px; right: 10px; color: #ff3e3e; font-weight: bold; cursor: pointer; }
+        textarea { width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; padding: 12px; font-family: inherit; }
 
-        /* --- ADMIN INTERFACE --- */
-        .admin-only { display: none; margin-bottom: 20px; }
-        .admin-section { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #444; }
-        input.admin-input, textarea.admin-input { width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; color: white; padding: 12px; margin-bottom: 10px; font-family: inherit; }
         .btn-action { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
         .btn-add { background: var(--text-gold); color: #000; }
-        .btn-save { background: #2ecc71; color: white; }
         .btn-red { background: var(--accent-red); color: white; }
     </style>
 </head>
@@ -96,11 +90,9 @@
 
     <div id="main-menu">
         <div class="header" id="admin-trigger"><h1 class="logo">SUSH'IT</h1></div>
-        
-        <div id="admin-controls" class="admin-only">
+        <div id="admin-controls" style="display:none; margin-bottom:20px;">
             <button class="btn-action btn-add" onclick="showPanel('admin-panel')">➕ CRÉER UNE FICHE PRODUIT</button>
         </div>
-
         <div id="product-list"></div>
     </div>
 
@@ -116,54 +108,49 @@
                 <div class="stars" id="star-rating">
                     <span class="star" onclick="setStar(1)">★</span><span class="star" onclick="setStar(2)">★</span><span class="star" onclick="setStar(3)">★</span><span class="star" onclick="setStar(4)">★</span><span class="star" onclick="setStar(5)">★</span>
                 </div>
-                <textarea id="review-text" class="review-input" rows="2" placeholder="Laisse un avis sur ce produit..."></textarea>
-                <button class="btn-post" onclick="postReview()">POSTER L'AVIS</button>
-                <div id="comments-list"></div>
+                <textarea id="review-text" rows="2" placeholder="Laisse un avis..."></textarea>
+                <button class="btn-action btn-red" style="margin-top:10px;" onclick="postReview()">POSTER L'AVIS</button>
+                <div id="comments-list" style="margin-top:15px;"></div>
             </div>
 
-            <button class="btn-action btn-red" style="margin-top: 20px;" onclick="closeView('details-view')">RETOUR AU CATALOGUE</button>
+            <button class="btn-action" style="background:transparent; border:1px solid white; color:white; margin-top:20px;" onclick="closeView('details-view')">RETOUR</button>
         </div>
     </div>
 
     <div id="admin-panel" class="panel">
         <div class="modal-content">
             <h2 style="text-align:center; color:var(--text-gold);">NOUVELLE FICHE</h2>
-            <div class="admin-section">
-                <input type="text" id="new-name" class="admin-input" placeholder="Nom (ex: MOUSSEUX)">
-                <input type="text" id="new-thumb" class="admin-input" placeholder="URL Miniature (Menu)">
-                <input type="text" id="new-img" class="admin-input" placeholder="URL Photo (Fiche)">
-                <input type="text" id="new-vid" class="admin-input" placeholder="URL Vidéo (Optionnel)">
-                <textarea id="new-desc" class="admin-input" rows="2" placeholder="Description..."></textarea>
-            </div>
-            <div class="admin-section" id="price-inputs">
-                <label style="display:block;margin-bottom:5px;">Prix & Grammages :</label>
+            <input type="text" id="new-name" placeholder="Nom (ex: MOUSSEUX)" style="margin-bottom:10px;">
+            <input type="text" id="new-flag" placeholder="Drapeau Emoji (ex: 🇲🇦)" style="margin-bottom:10px;">
+            <input type="text" id="new-thumb" placeholder="URL Miniature" style="margin-bottom:10px;">
+            <input type="text" id="new-img" placeholder="URL Photo Principale" style="margin-bottom:10px;">
+            <input type="text" id="new-vid" placeholder="URL Vidéo (Optionnel)" style="margin-bottom:10px;">
+            <textarea id="new-desc" placeholder="Description..." style="margin-bottom:10px;"></textarea>
+            
+            <div id="price-inputs">
                 <div style="display:flex; gap:5px; margin-bottom:5px;">
-                    <input type="text" placeholder="2g" class="admin-input g-in">
-                    <input type="text" placeholder="20€" class="admin-input p-in">
+                    <input type="text" placeholder="2g" class="g-in">
+                    <input type="text" placeholder="20€" class="p-in">
                 </div>
             </div>
-            <button onclick="addPriceLine()" style="background:none; color:white; border:1px dashed #666; width:100%; padding:10px; margin-bottom:20px; border-radius:10px;">+ Ajouter ligne de prix</button>
-            <button class="btn-action btn-save" onclick="saveProduct()">ENREGISTRER LA FICHE</button>
+            <button onclick="addPriceLine()" style="background:none; color:white; border:1px dashed #666; width:100%; padding:10px; margin-bottom:20px;">+ Ligne de prix</button>
+            <button class="btn-action" style="background:#2ecc71; color:white;" onclick="saveProduct()">ENREGISTRER</button>
             <button class="btn-action btn-red" onclick="showPanel('main-menu')">ANNULER</button>
         </div>
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+        const tg = window.Telegram.WebApp; tg.expand();
 
         let defaultProducts = [
-            { name: 'FROZEN', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Texture givrée premium.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] },
-            { name: 'FILTRÉ', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Filtrage traditionnel.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] },
-            { name: 'STATIC', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Puissance et pureté.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','160€']] },
-            { name: 'MOUSSEUX', thumb: 'https://i.imgur.com/LitPBka.png', img: 'https://i.imgur.com/LitPBka.png', vid: 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16', desc: 'Douceur et légèreté.', prices: [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','80€']] }
+            { name: 'FROZEN', flag: '🇲🇦', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Texture givrée premium.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] },
+            { name: 'FILTRÉ', flag: '🇲🇦', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Filtrage traditionnel.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','150€']] },
+            { name: 'STATIC', flag: '🇲🇦', thumb: 'https://i.imgur.com/xvvP6oB.jpeg', img: 'https://i.imgur.com/xvvP6oB.jpeg', vid: '', desc: 'Puissance et pureté.', prices: [['2g','20€'],['6g','50€'],['10g','70€'],['25g','160€']] },
+            { name: 'MOUSSEUX', flag: '🇲🇦', thumb: 'https://i.imgur.com/LitPBka.png', img: 'https://i.imgur.com/LitPBka.png', vid: 'https://dl.dropboxusercontent.com/scl/fi/5wt41hiv7g8kr48eytecb/EE29B192-97E3-4D85-B637-EA1BA814D3F3.mp4?rlkey=t84b4b5t4u6jbet3yodx6zd16', desc: 'Douceur et légèreté.', prices: [['2g','10€'],['4.5g','20€'],['12g','50€'],['25g','80€']] }
         ];
 
         let products = JSON.parse(localStorage.getItem('s_prods')) || defaultProducts;
-        let adminMode = false;
-        let pressTimer;
-        let currentRating = 0;
-        let activeProdIndex = null;
+        let adminMode = false; let pressTimer; let activeIndex = null; let currentRating = 0;
 
         document.getElementById('admin-trigger').addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
@@ -176,56 +163,53 @@
         document.getElementById('admin-trigger').addEventListener('touchend', () => clearTimeout(pressTimer));
 
         function renderProducts() {
-            const list = document.getElementById('product-list');
-            list.innerHTML = '';
+            const list = document.getElementById('product-list'); list.innerHTML = '';
             products.forEach((p, i) => {
                 list.innerHTML += `
-                    <div class="category-item" onclick="openProduct(${i})">
-                        <div class="cat-left"><img src="${p.thumb}" class="cat-img"><span>${p.name}</span></div>
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            ${adminMode ? `<span style="color:red; font-weight:bold; padding:10px;" onclick="event.stopPropagation(); deleteProduct(${i})">🗑️</span>` : ''}
-                            <span>❯</span>
+                <div class="category-item" onclick="openProduct(${i})">
+                    <div class="cat-left">
+                        <div class="cat-img-wrapper">
+                            <img src="${p.thumb}" class="cat-img">
+                            <div class="flag-badge">${p.flag || '📍'}</div>
                         </div>
-                    </div>`;
+                        <span>${p.name}</span>
+                    </div>
+                    <div>${adminMode ? `<span style="color:red;margin-right:15px;" onclick="event.stopPropagation();deleteProduct(${i})">🗑️</span>` : ''}❯</div>
+                </div>`;
             });
         }
 
         function openProduct(i) {
-            activeProdIndex = i;
-            const p = products[i];
+            activeIndex = i; const p = products[i];
             document.getElementById('details-view').style.display = 'block';
             document.getElementById('prod-title').innerText = p.name;
             document.getElementById('prod-desc').innerText = p.desc;
             setMedia('img', p.img);
             
-            const thumbs = document.getElementById('thumbs');
-            thumbs.innerHTML = '';
+            const thumbs = document.getElementById('thumbs'); thumbs.innerHTML = '';
             if(p.vid) {
                 thumbs.innerHTML = `
-                    <div class="thumb active" onclick="setMedia('img', '${p.img}', this)"><img src="${p.img}"></div>
-                    <div class="thumb" onclick="setMedia('vid', '${p.vid}', this)"><video src="${p.vid}" muted></video></div>`;
+                    <div class="thumb active" onclick="setMedia('img', '${p.img}', this)"><img src="${p.img}" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="thumb" onclick="setMedia('vid', '${p.vid}', this)"><video src="${p.vid}" style="width:100%;height:100%;object-fit:cover;" muted></video></div>`;
             }
 
             let priceHtml = '';
-            p.prices.forEach(pr => { priceHtml += `<div class="price-item"><span class="p-gram">${pr[0]}</span><span class="p-value">${pr[1]}</span></div>`; });
+            p.prices.forEach(pr => { priceHtml += `<div class="price-item"><div style="color:var(--text-gold);font-weight:bold;">${pr[0]}</div><div style="font-size:1.2rem;font-weight:900;">${pr[1]}</div></div>`; });
             document.getElementById('prod-prices').innerHTML = priceHtml;
             loadReviews();
         }
 
         function setMedia(type, url, el) {
             const display = document.getElementById('main-display');
-            display.innerHTML = type === 'vid' ? `<video autoplay loop muted playsinline controls src="${url}"></video>` : `<img src="${url}">`;
+            const flag = products[activeIndex].flag || '📍';
+            display.innerHTML = (type === 'vid' ? `<video autoplay loop muted playsinline controls src="${url}"></video>` : `<img src="${url}">`) + `<div class="big-flag">${flag}</div>`;
             if(el) { document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
         }
 
-        function setStar(n) { currentRating = n; document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); }
-        
         function postReview() {
-            const text = document.getElementById('review-text').value;
-            if(!currentRating || !text.trim()) return;
-            const review = { id: Date.now(), prod: products[activeProdIndex].name, rating: currentRating, text: text };
+            const text = document.getElementById('review-text').value; if(!currentRating || !text.trim()) return;
             let reviews = JSON.parse(localStorage.getItem('s_reviews') || "[]");
-            reviews.unshift(review);
+            reviews.unshift({ id: Date.now(), prod: products[activeIndex].name, rating: currentRating, text: text });
             localStorage.setItem('s_reviews', JSON.stringify(reviews));
             document.getElementById('review-text').value = ''; setStar(0); loadReviews();
         }
@@ -233,45 +217,31 @@
         function loadReviews() {
             let reviews = JSON.parse(localStorage.getItem('s_reviews') || "[]");
             let html = "";
-            reviews.filter(r => r.prod === products[activeProdIndex].name).forEach(r => {
-                const delBtn = adminMode ? `<span class="del-btn" onclick="deleteReview(${r.id})">✕</span>` : "";
-                html += `<div class="comment-item">${delBtn}<div style="color:var(--text-gold)">${"★".repeat(r.rating)}</div>${r.text}</div>`;
+            reviews.filter(r => r.prod === products[activeIndex].name).forEach(r => {
+                html += `<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;margin-bottom:8px;position:relative;">
+                    ${adminMode ? `<span style="position:absolute;right:10px;color:red;" onclick="deleteReview(${r.id})">✕</span>` : ''}
+                    <div style="color:var(--text-gold);font-size:12px;">${"★".repeat(r.rating)}</div>
+                    <div style="font-size:13px;">${r.text}</div>
+                </div>`;
             });
-            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3; text-align:center;'>Aucun avis pour le moment.</div>";
+            document.getElementById('comments-list').innerHTML = html || "<div style='opacity:0.3;text-align:center;'>Aucun avis.</div>";
         }
 
-        function deleteReview(id) {
-            let reviews = JSON.parse(localStorage.getItem('s_reviews') || "[]");
-            localStorage.setItem('s_reviews', JSON.stringify(reviews.filter(r => r.id !== id)));
-            loadReviews();
-        }
-
-        function addPriceLine() {
-            const div = document.createElement('div');
-            div.style.display = 'flex'; div.style.gap = '5px'; div.style.marginBottom = '5px';
-            div.innerHTML = `<input type="text" placeholder="ex: 10g" class="admin-input g-in"><input type="text" placeholder="ex: 70€" class="admin-input p-in">`;
-            document.getElementById('price-inputs').appendChild(div);
-        }
-
-        function saveProduct() {
-            const name = document.getElementById('new-name').value;
-            const thumb = document.getElementById('new-thumb').value;
-            const img = document.getElementById('new-img').value;
-            const vid = document.getElementById('new-vid').value;
-            const desc = document.getElementById('new-desc').value;
-            const gIn = document.querySelectorAll('.g-in'), pIn = document.querySelectorAll('.p-in');
-            let priceList = [];
-            gIn.forEach((g, i) => { if(g.value) priceList.push([g.value, pIn[i].value]); });
-
-            if(!name || !thumb || !img) return alert("Remplis au moins le nom et les photos !");
-            products.push({ name, thumb, img, vid, desc, prices: priceList });
-            localStorage.setItem('s_prods', JSON.stringify(products));
-            location.reload();
-        }
-
-        function deleteProduct(i) { if(confirm("Supprimer ce produit ?")) { products.splice(i, 1); localStorage.setItem('s_prods', JSON.stringify(products)); renderProducts(); } }
+        function setStar(n) { currentRating = n; document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); }
+        function deleteReview(id) { let reviews = JSON.parse(localStorage.getItem('s_reviews') || "[]"); localStorage.setItem('s_reviews', JSON.stringify(reviews.filter(r => r.id !== id))); loadReviews(); }
+        function addPriceLine() { const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '5px'; div.style.marginBottom = '5px'; div.innerHTML = `<input type="text" placeholder="10g" class="g-in"><input type="text" placeholder="70€" class="p-in">`; document.getElementById('price-inputs').appendChild(div); }
         function showPanel(id) { document.querySelectorAll('.panel').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
         function closeView(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function saveProduct() {
+            const name = document.getElementById('new-name').value, flag = document.getElementById('new-flag').value, thumb = document.getElementById('new-thumb').value, img = document.getElementById('new-img').value, vid = document.getElementById('new-vid').value, desc = document.getElementById('new-desc').value;
+            const gIn = document.querySelectorAll('.g-in'), pIn = document.querySelectorAll('.p-in');
+            let priceList = []; gIn.forEach((g, i) => { if(g.value) priceList.push([g.value, pIn[i].value]); });
+            products.push({ name, flag, thumb, img, vid, desc, prices: priceList });
+            localStorage.setItem('s_prods', JSON.stringify(products)); location.reload();
+        }
+
+        function deleteProduct(i) { if(confirm("Supprimer ?")) { products.splice(i, 1); localStorage.setItem('s_prods', JSON.stringify(products)); renderProducts(); } }
 
         renderProducts();
     </script>
