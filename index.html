@@ -16,7 +16,7 @@
 
         body {
             font-family: -apple-system, sans-serif;
-            background-image: url('https://i.imgur.com/xvvP6oB.jpeg'); 
+            background-image: url('[attachment_0](attachment)'); 
             background-size: cover; background-position: center; background-attachment: fixed;
             margin: 0; padding: 0; color: white;
         }
@@ -39,7 +39,7 @@
         .cat-left { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 600; }
         .cat-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; border: 1px solid var(--text-gold); }
 
-        /* --- VUES (DETAILES & ADMIN) --- */
+        /* --- VUES (DÉTAILS & ADMIN) --- */
         .panel { 
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.9); z-index: 999; overflow-y: auto;
@@ -165,7 +165,6 @@
         let currentRating = 0;
         let activeProdIndex = null;
 
-        // Admin Trigger
         document.getElementById('admin-trigger').addEventListener('touchstart', () => {
             pressTimer = setTimeout(() => {
                 adminMode = !adminMode;
@@ -219,7 +218,6 @@
             if(el) { document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
         }
 
-        // --- GESTION AVIS ---
         function setStar(n) { currentRating = n; document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < n)); }
         
         function postReview() {
@@ -248,7 +246,6 @@
             loadReviews();
         }
 
-        // --- ADMIN FONCTIONS ---
         function addPriceLine() {
             const div = document.createElement('div');
             div.style.display = 'flex'; div.style.gap = '5px'; div.style.marginBottom = '5px';
